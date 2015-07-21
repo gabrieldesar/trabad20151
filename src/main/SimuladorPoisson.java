@@ -3,8 +3,8 @@ package main;
 public class SimuladorPoisson extends Simulador {
 	
 	
-	public SimuladorPoisson(float lambda, float mi, float p) {
-		super(lambda, mi, p);
+	public SimuladorPoisson(float lambda, float mi, float p, long tempoSimulacao) {
+		super(lambda, mi, p, tempoSimulacao);
 		// TODO Auto-generated constructor stub
 	}
 

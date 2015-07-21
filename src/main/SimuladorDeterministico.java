@@ -2,9 +2,8 @@ package main;
 
 public class SimuladorDeterministico extends Simulador {
 
-	public SimuladorDeterministico(float lambda, float mi, float p) {
-		super(lambda, mi, p);
-		// TODO Auto-generated constructor stub
+	public SimuladorDeterministico(float lambda, float mi, float p, long tempoSimulacao) {
+		super(lambda, mi, p,tempoSimulacao);
 	}
 
 	@Override
