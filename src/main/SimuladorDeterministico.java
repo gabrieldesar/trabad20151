@@ -11,5 +11,4 @@ public class SimuladorDeterministico extends Simulador {
 		return Math.round(lambda * FATOR_TRUNCAMENTO_TEMPO);
 	}
 
-
 }
