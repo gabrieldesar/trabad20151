@@ -16,7 +16,7 @@ public abstract class Simulador {
 	
 	Servidor servidor;
 	Cliente proximaChegada = null;
-	List<Cliente> clientesNoSitema = new ArrayList<Cliente>();
+	List<Cliente> clientesNoSistema = new ArrayList<Cliente>();
 	
 	public Simulador(float lambda, float mi, float p, long tempoSimulacao){
 		this.lambda = lambda;
@@ -30,7 +30,7 @@ public abstract class Simulador {
 	
 	//Loop do processamento da rede de filas
 	public void simula(){
-		long clientesNoSistema = 0;
+		long numClientesSistema = 0;
 		//Cliente
 		
 		for(long i = 1; i <= tempoSimulacao; i++) {
@@ -38,8 +38,8 @@ public abstract class Simulador {
 				proximaChegada = new Cliente(this.entradaCliente(),Servidor.geraTempoDeServico(mi));
 			} else {
 				if(proximaChegada.tempoChegada == i) {
-					clientesNoSitema.add(proximaChegada);
-					Collections.sort(clientesNoSitema, new ClienteComparator());
+					clientesNoSistema.add(proximaChegada);
+					Collections.sort(clientesNoSistema, new ClienteComparator());
 					proximaChegada = null;
 				}
 			}
@@ -52,5 +52,6 @@ public abstract class Simulador {
 	public void log(){
 		//TO-DO
 	}
+	
 	
 }
