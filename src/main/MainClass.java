@@ -1,50 +1,64 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MainClass {
 	Scanner scan;
+	public static final long TEMPO_SIMULACAO=1;
 	
 	public MainClass(){
-		double taxaEntrada=0;
-		double taxaServico=0;
+		float taxaEntrada;
+		float taxaServico;
+		float probReentrada;
+		
+		List<SimuladorPoisson> cenario1 = new ArrayList<SimuladorPoisson>();
+		List<SimuladorDeterministico> cenario2 = new ArrayList<SimuladorDeterministico>();
+		List<SimuladorUniforme> cenario3 = new ArrayList<SimuladorUniforme>();
+		List<SimuladorPoisson> cenario4 = new ArrayList<SimuladorPoisson>();
+		List<SimuladorDeterministico> cenario5 = new ArrayList<SimuladorDeterministico>();
+		List<SimuladorUniforme> cenario6 = new ArrayList<SimuladorUniforme>();
 		
 		scan = new Scanner(System.in);
 		System.out.println("----SIMULAÇÃO DE REDE DE FILAS----");
 		System.out.println("");
-		System.out.println("----Cenário1: Simulador Poisson Sem Reentrada----");
+		System.out.println("----Informe o tempo considerado para simulação----");
 		
-		boolean quitWhile;
+		//TODO - CAPTURAR INPUT DO TEMPO DE SIMULACAO
 		
-		do{
-			System.out.println("Informe a taxa de entrada: [0.05-0.9]");
-			try {
-				taxaEntrada = Double.parseDouble(scan.nextLine());
-				if (taxaEntrada < 0.05 || taxaEntrada > 0.9){
-					quitWhile = false;
-					System.out.println("Valor inválido");
-				}else{
-					quitWhile = true;
-				}
-			} catch (Exception e) {
-				System.out.println("Valor inválido");
-				taxaEntrada = 0;
-				quitWhile = false;
-			}
-		}while (!quitWhile);
+		//Cenários 1 e 2
 		
+		taxaEntrada = 0.05f;
 		taxaServico = 1;
+		probReentrada = 0;
 		
-		System.out.println("Taxa de entrada: " + taxaEntrada);
-		System.out.println("Probabilidade de reentrada: 0");
-		System.out.println("Taxa de serviço: " + taxaServico);
+		while (taxaEntrada <= 0.9){
+			cenario1.add(new SimuladorPoisson(taxaEntrada, taxaServico, probReentrada, TEMPO_SIMULACAO));
+			cenario2.add(new SimuladorDeterministico(taxaEntrada, taxaServico, probReentrada, TEMPO_SIMULACAO));
+			taxaEntrada += 0.05;
+		}
 		
-		System.out.println("Processando...");
-		//Todo Chamar simulador
+		//Cenários 3, 4, 5 e 6
+		float taxaEntradaCenario3 = 0.1f;
+		float probReentradaCenario3 = 0;
+		int intervaloMinCenario3 = 5;
+		int intervaloMaxCenario3 = 15;
+		int intervaloMinCenario6 = 50;
+		int intervaloMaxCenario6 = 150;
+		taxaEntrada = 0.01f;
+		taxaServico = 1;
+		probReentrada = 0.9f;
 		
-		//Fazer para outros simuladores
+		while (taxaEntrada <= 10){
+			cenario3.add(new SimuladorUniforme(taxaEntradaCenario3, taxaServico, probReentradaCenario3, intervaloMinCenario3, intervaloMaxCenario3, TEMPO_SIMULACAO));
+			cenario4.add(new SimuladorPoisson(taxaEntrada, taxaServico, probReentrada, TEMPO_SIMULACAO));
+			cenario5.add(new SimuladorDeterministico(taxaEntrada, taxaServico, probReentrada, TEMPO_SIMULACAO));
+			cenario6.add(new SimuladorUniforme(taxaEntrada, taxaServico, probReentrada, intervaloMinCenario6, intervaloMaxCenario6, TEMPO_SIMULACAO));
+			taxaServico += 0.05;
+		}
 		
-		//Imprimir log
+		//TODO Imprimir log
 		
 		
 	}
