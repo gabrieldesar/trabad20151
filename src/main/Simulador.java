@@ -28,23 +28,44 @@ public abstract class Simulador {
 	//Gerar um cliente novo que entra no sistema
 	public abstract int entradaCliente();
 	
+	
+	public void gerarClientes(long tempoSimulacao){
+		for (long i=0; i<= tempoSimulacao; i++){
+			int tempoProximaChegada = entradaCliente();
+			if (i + tempoProximaChegada < tempoSimulacao){
+				clientesNoSistema.add(new Cliente(i+tempoProximaChegada));
+				i = i + tempoProximaChegada;
+				//OBS: Estamos perdendo 1 tempo?
+			}	
+		}		
+	}
+	
+	public void servirClientes(long tempoSimulacao){
+		for (long i=0; i<= tempoSimulacao; i++){
+			int numClientesServidos =0;
+			long tempoServico = Servidor.geraTempoDeServico(mi);
+			if (i + tempoServico <= tempoSimulacao){
+				
+				clientesNoSistema.get(numClientesServidos).tempoServico= tempoServico;
+				clientesNoSistema.get(numClientesServidos).tempoSaida= i+tempoServico;
+				numClientesServidos++;
+				
+				//Prob reentrada
+				if (Math.random() < p){
+					clientesNoSistema.add(new Cliente(i+tempoServico));
+					Collections.sort(clientesNoSistema, new ClienteComparator());
+				}
+				
+				i = i + tempoServico; 
+				//OBS: Estamos perdendo 1 tempo?
+			}	
+		}	
+	}
+	
 	//Loop do processamento da rede de filas
 	public void simula(){
-		long numClientesSistema = 0;
-		//Cliente
-		
-		for(long i = 1; i <= tempoSimulacao; i++) {
-			if(proximaChegada == null) {
-				proximaChegada = new Cliente(this.entradaCliente(),Servidor.geraTempoDeServico(mi));
-			} else {
-				if(proximaChegada.tempoChegada == i) {
-					clientesNoSistema.add(proximaChegada);
-					Collections.sort(clientesNoSistema, new ClienteComparator());
-					proximaChegada = null;
-				}
-			}
-		}
-		
+		gerarClientes(tempoSimulacao);
+		servirClientes(tempoSimulacao);		
 		
 	}
 	

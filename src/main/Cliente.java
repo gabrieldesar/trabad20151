@@ -6,8 +6,7 @@ public class Cliente {
 	long tempoServico;
 	long tempoSaida;
 	
-	public Cliente (long tempoChegada, long tempoServico) {
+	public Cliente (long tempoChegada) {
 		this.tempoChegada = tempoChegada;
-		this.tempoServico = tempoServico;
 	}
 }
