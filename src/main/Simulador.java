@@ -12,6 +12,7 @@ public abstract class Simulador {
 	float p;
 	
 	long tempoSimulacao;
+	List<Long> instantesOciosos = new ArrayList<Long>();
 	
 	
 	Servidor servidor;
@@ -43,35 +44,53 @@ public abstract class Simulador {
 	public void servirClientes(long tempoSimulacao){
 		for (long i=0; i<= tempoSimulacao; i++){
 			int numClientesServidos =0;
-			long tempoServico = Servidor.geraTempoDeServico(mi);
-			if (i + tempoServico <= tempoSimulacao){
+			
+			if (i >= clientesNoSistema.get(numClientesServidos).tempoChegada){
 				
-				clientesNoSistema.get(numClientesServidos).tempoServico= tempoServico;
-				clientesNoSistema.get(numClientesServidos).tempoSaida= i+tempoServico;
-				numClientesServidos++;
-				
-				//Prob reentrada
-				if (Math.random() < p){
-					clientesNoSistema.add(new Cliente(i+tempoServico));
-					Collections.sort(clientesNoSistema, new ClienteComparator());
+				long tempoServico = Servidor.geraTempoDeServico(mi);
+				if (i + tempoServico <= tempoSimulacao){
+					clientesNoSistema.get(numClientesServidos).tempoServico= tempoServico;
+					clientesNoSistema.get(numClientesServidos).tempoSaida= i+tempoServico;
+					numClientesServidos++;
+					
+					//Prob reentrada
+					if (Math.random() < p){
+						clientesNoSistema.get(numClientesServidos).reentrou= true;
+						clientesNoSistema.add(new Cliente(i+tempoServico));
+						Collections.sort(clientesNoSistema, new ClienteComparator());
+					}
+					
+					i = i + tempoServico; 
+					//OBS: Estamos perdendo 1 tempo?
+					
 				}
-				
-				i = i + tempoServico; 
-				//OBS: Estamos perdendo 1 tempo?
-			}	
-		}	
+			}else{
+				instantesOciosos.add(i);
+			}
+		}
 	}
 	
 	//Loop do processamento da rede de filas
 	public void simula(){
 		gerarClientes(tempoSimulacao);
-		servirClientes(tempoSimulacao);		
+		servirClientes(tempoSimulacao);	
+		log();
 		
 	}
 	
 	//Saída da simulação 
 	public void log(){
-		//TO-DO
+		int numeroClientes = clientesNoSistema.size();
+		long tempoTotalNoSistema=0;
+		for (int i=0; i<numeroClientes; i++){
+			tempoTotalNoSistema+= clientesNoSistema.get(i).tempoSaida - clientesNoSistema.get(i).tempoChegada;
+		}
+		
+		long tempoMedioNoSistema = tempoTotalNoSistema/numeroClientes;
+		float numeroMedioDeClientes = lambda * tempoMedioNoSistema;  
+		//TODO Imprimir Lambda, Mi, Simulador(Tipo), p, numeroMedioDeClientes 
+		
+		
 	}
 	
 	

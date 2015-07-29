@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class MainClass {
 	Scanner scan;
-	public static final long TEMPO_SIMULACAO=1;
+	public long tempoSimulacao;
 	
 	public MainClass(){
 		float taxaEntrada;
@@ -26,6 +26,16 @@ public class MainClass {
 		System.out.println("----Informe o tempo considerado para simulação----");
 		
 		//TODO - CAPTURAR INPUT DO TEMPO DE SIMULACAO
+		boolean quitWhile=false;
+		do{
+			try{
+				tempoSimulacao = Long.parseLong(scan.nextLine());
+				quitWhile = true;
+			}catch (Exception e){
+				System.out.println("Valor inválido. Digite um número inteiro");
+			}				
+		}while(!quitWhile);
+		
 		
 		//Cenários 1 e 2
 		
@@ -34,8 +44,8 @@ public class MainClass {
 		probReentrada = 0;
 		
 		while (taxaEntrada <= 0.9){
-			cenario1.add(new SimuladorPoisson(taxaEntrada, taxaServico, probReentrada, TEMPO_SIMULACAO));
-			cenario2.add(new SimuladorDeterministico(taxaEntrada, taxaServico, probReentrada, TEMPO_SIMULACAO));
+			cenario1.add(new SimuladorPoisson(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
+			cenario2.add(new SimuladorDeterministico(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
 			taxaEntrada += 0.05;
 		}
 		
@@ -51,14 +61,13 @@ public class MainClass {
 		probReentrada = 0.9f;
 		
 		while (taxaEntrada <= 10){
-			cenario3.add(new SimuladorUniforme(taxaEntradaCenario3, taxaServico, probReentradaCenario3, intervaloMinCenario3, intervaloMaxCenario3, TEMPO_SIMULACAO));
-			cenario4.add(new SimuladorPoisson(taxaEntrada, taxaServico, probReentrada, TEMPO_SIMULACAO));
-			cenario5.add(new SimuladorDeterministico(taxaEntrada, taxaServico, probReentrada, TEMPO_SIMULACAO));
-			cenario6.add(new SimuladorUniforme(taxaEntrada, taxaServico, probReentrada, intervaloMinCenario6, intervaloMaxCenario6, TEMPO_SIMULACAO));
+			cenario3.add(new SimuladorUniforme(taxaEntradaCenario3, taxaServico, probReentradaCenario3, intervaloMinCenario3, intervaloMaxCenario3, tempoSimulacao));
+			cenario4.add(new SimuladorPoisson(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
+			cenario5.add(new SimuladorDeterministico(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
+			cenario6.add(new SimuladorUniforme(taxaEntrada, taxaServico, probReentrada, intervaloMinCenario6, intervaloMaxCenario6, tempoSimulacao));
 			taxaServico += 0.05;
 		}
 		
-		//TODO Imprimir log
 		
 		
 	}
