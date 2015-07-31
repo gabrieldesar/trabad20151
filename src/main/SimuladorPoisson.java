@@ -1,11 +1,14 @@
 package main;
 
 public class SimuladorPoisson extends Simulador {
-	
+	public static int ID_POISSON = 0;
 	
 	public SimuladorPoisson(float lambda, float mi, float p, long tempoSimulacao) {
 		super(lambda, mi, p, tempoSimulacao);
-		// TODO Auto-generated constructor stub
+		ID_POISSON++;
+		setNomeSimulador();
+		System.out.println("Criado Simulador " + nomeSimulador+ID_POISSON);	
+		simula();
 	}
 
 	@Override
@@ -13,6 +16,17 @@ public class SimuladorPoisson extends Simulador {
 		double proximaChegada;
 		proximaChegada = -Math.log(1 - (1 - Math.exp(-lambda)) * Math.random()) / lambda;
 		return (int) Math.round(proximaChegada * FATOR_TRUNCAMENTO_TEMPO);
+	}
+
+	@Override
+	public void setNomeSimulador() {
+		this.nomeSimulador = "Poisson";
+		
+	}
+
+	@Override
+	public int getIdSimulador() {
+		return ID_POISSON;
 	}
 
 

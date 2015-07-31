@@ -27,7 +27,7 @@ public class MainClass {
 		
 		//TODO - CAPTURAR INPUT DO TEMPO DE SIMULACAO
 		boolean quitWhile=false;
-		do{
+		/*do{
 			try{
 				tempoSimulacao = Long.parseLong(scan.nextLine());
 				quitWhile = true;
@@ -35,37 +35,37 @@ public class MainClass {
 				System.out.println("Valor inválido. Digite um número inteiro");
 			}				
 		}while(!quitWhile);
-		
-		
+		*/
+		tempoSimulacao = 20;
 		//Cenários 1 e 2
 		
 		taxaEntrada = 0.05f;
-		taxaServico = 1;
-		probReentrada = 0;
+		taxaServico = 1f;
+		probReentrada = 0f;
 		
-		while (taxaEntrada <= 0.9){
+		while (taxaEntrada < 0.95){
 			cenario1.add(new SimuladorPoisson(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
 			cenario2.add(new SimuladorDeterministico(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
-			taxaEntrada += 0.05;
+			taxaEntrada += 0.05f;
 		}
 		
 		//Cenários 3, 4, 5 e 6
 		float taxaEntradaCenario3 = 0.1f;
-		float probReentradaCenario3 = 0;
+		float probReentradaCenario3 = 0f;
 		int intervaloMinCenario3 = 5;
 		int intervaloMaxCenario3 = 15;
 		int intervaloMinCenario6 = 50;
 		int intervaloMaxCenario6 = 150;
 		taxaEntrada = 0.01f;
-		taxaServico = 1;
+		taxaServico = 1f;
 		probReentrada = 0.9f;
 		
-		while (taxaEntrada <= 10){
+		while (taxaServico < 10.5f){
 			cenario3.add(new SimuladorUniforme(taxaEntradaCenario3, taxaServico, probReentradaCenario3, intervaloMinCenario3, intervaloMaxCenario3, tempoSimulacao));
 			cenario4.add(new SimuladorPoisson(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
 			cenario5.add(new SimuladorDeterministico(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
 			cenario6.add(new SimuladorUniforme(taxaEntrada, taxaServico, probReentrada, intervaloMinCenario6, intervaloMaxCenario6, tempoSimulacao));
-			taxaServico += 0.05;
+			taxaServico += 0.5f;
 		}
 		
 		

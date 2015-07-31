@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+
 public abstract class Simulador {
 	public final int FATOR_TRUNCAMENTO_TEMPO = 10;
-	
+	//public static int ID_SIMULADOR = 0;
 	float lambda;
 	float mi;
 	float p;
-	
+	String nomeSimulador;
 	long tempoSimulacao;
 	List<Long> instantesOciosos = new ArrayList<Long>();
 	
@@ -20,6 +22,7 @@ public abstract class Simulador {
 	List<Cliente> clientesNoSistema = new ArrayList<Cliente>();
 	
 	public Simulador(float lambda, float mi, float p, long tempoSimulacao){
+		//ID_SIMULADOR++;
 		this.lambda = lambda;
 		this.mi = mi;
 		this.p = p;		
@@ -30,7 +33,7 @@ public abstract class Simulador {
 	public abstract int entradaCliente();
 	
 	
-	public void gerarClientes(long tempoSimulacao){
+	public void gerarClientes(){
 		for (long i=0; i<= tempoSimulacao; i++){
 			int tempoProximaChegada = entradaCliente();
 			if (i + tempoProximaChegada < tempoSimulacao){
@@ -41,17 +44,23 @@ public abstract class Simulador {
 		}		
 	}
 	
-	public void servirClientes(long tempoSimulacao){
+	public void servirClientes(){
+		int numClientesServidos = 0;
 		for (long i=0; i<= tempoSimulacao; i++){
-			int numClientesServidos =0;
-			
+			if (numClientesServidos == clientesNoSistema.size()){
+				while (i<= tempoSimulacao){
+					instantesOciosos.add(i);
+					i++;
+				}
+				return;
+			}
 			if (i >= clientesNoSistema.get(numClientesServidos).tempoChegada){
 				
 				long tempoServico = Servidor.geraTempoDeServico(mi);
 				if (i + tempoServico <= tempoSimulacao){
 					clientesNoSistema.get(numClientesServidos).tempoServico= tempoServico;
 					clientesNoSistema.get(numClientesServidos).tempoSaida= i+tempoServico;
-					numClientesServidos++;
+					
 					
 					//Prob reentrada
 					if (Math.random() < p){
@@ -59,6 +68,7 @@ public abstract class Simulador {
 						clientesNoSistema.add(new Cliente(i+tempoServico));
 						Collections.sort(clientesNoSistema, new ClienteComparator());
 					}
+					numClientesServidos++;
 					
 					i = i + tempoServico; 
 					//OBS: Estamos perdendo 1 tempo?
@@ -72,23 +82,37 @@ public abstract class Simulador {
 	
 	//Loop do processamento da rede de filas
 	public void simula(){
-		gerarClientes(tempoSimulacao);
-		servirClientes(tempoSimulacao);	
+		//System.out.println(nomeSimulador+Simulador.ID_SIMULADOR + " gerar clientes");
+		gerarClientes();
+		//System.out.println(nomeSimulador+Simulador.ID_SIMULADOR + " servir clientes");
+		servirClientes();	
+		//System.out.println(nomeSimulador+Simulador.ID_SIMULADOR + " vai imprimir clientes");
 		log();
 		
 	}
+	
+	public abstract void setNomeSimulador();
+	public abstract int getIdSimulador();
 	
 	//Saída da simulação 
 	public void log(){
 		int numeroClientes = clientesNoSistema.size();
 		long tempoTotalNoSistema=0;
 		for (int i=0; i<numeroClientes; i++){
-			tempoTotalNoSistema+= clientesNoSistema.get(i).tempoSaida - clientesNoSistema.get(i).tempoChegada;
+			tempoTotalNoSistema+= Math.max(clientesNoSistema.get(i).tempoSaida, tempoSimulacao) - clientesNoSistema.get(i).tempoChegada;
+		}
+		long tempoMedioNoSistema;
+		if (numeroClientes==0){
+			tempoMedioNoSistema = 0;
+		}else{
+			tempoMedioNoSistema = tempoTotalNoSistema/numeroClientes;
 		}
 		
-		long tempoMedioNoSistema = tempoTotalNoSistema/numeroClientes;
 		float numeroMedioDeClientes = lambda * tempoMedioNoSistema;  
-		//TODO Imprimir Lambda, Mi, Simulador(Tipo), p, numeroMedioDeClientes 
+		
+	
+		SimulationLogger sl = new SimulationLogger(nomeSimulador+getIdSimulador());
+		sl.printSimulationMetrics(nomeSimulador+getIdSimulador(), lambda, mi, p, numeroMedioDeClientes);
 		
 		
 	}
