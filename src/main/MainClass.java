@@ -7,18 +7,19 @@ import java.util.Scanner;
 public class MainClass {
 	Scanner scan;
 	public long tempoSimulacao;
+	List<SimuladorPoisson> cenario1 = new ArrayList<SimuladorPoisson>();
+	List<SimuladorDeterministico> cenario2 = new ArrayList<SimuladorDeterministico>();
+	List<SimuladorUniforme> cenario3 = new ArrayList<SimuladorUniforme>();
+	List<SimuladorPoisson> cenario4 = new ArrayList<SimuladorPoisson>();
+	List<SimuladorDeterministico> cenario5 = new ArrayList<SimuladorDeterministico>();
+	List<SimuladorUniforme> cenario6 = new ArrayList<SimuladorUniforme>();
 	
 	public MainClass(){
 		float taxaEntrada;
 		float taxaServico;
 		float probReentrada;
 		
-		List<SimuladorPoisson> cenario1 = new ArrayList<SimuladorPoisson>();
-		List<SimuladorDeterministico> cenario2 = new ArrayList<SimuladorDeterministico>();
-		List<SimuladorUniforme> cenario3 = new ArrayList<SimuladorUniforme>();
-		List<SimuladorPoisson> cenario4 = new ArrayList<SimuladorPoisson>();
-		List<SimuladorDeterministico> cenario5 = new ArrayList<SimuladorDeterministico>();
-		List<SimuladorUniforme> cenario6 = new ArrayList<SimuladorUniforme>();
+		
 		
 		scan = new Scanner(System.in);
 		System.out.println("----SIMULAÇÃO DE REDE DE FILAS----");
