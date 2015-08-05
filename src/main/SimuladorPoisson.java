@@ -14,8 +14,10 @@ public class SimuladorPoisson extends Simulador {
 	@Override
 	public int entradaCliente() {
 		double proximaChegada;
-		proximaChegada = -Math.log(1 - (1 - Math.exp(-lambda)) * Math.random()) / lambda;
-		return (int) Math.round(proximaChegada * FATOR_TRUNCAMENTO_TEMPO);
+		//proximaChegada = -Math.log(1 - (1 - Math.exp(-lambda)) * Math.random()) / lambda;
+		proximaChegada = -Math.log(Math.exp(- lambda * rangeLower) - (Math.exp(- lambda * rangeLower) - Math.exp(-lambda*rangeUpper)) * Math.random()) / lambda;
+		//System.out.println("proxima chegada antes de arredondar -> "+proximaChegada);
+		return (int) Math.round(proximaChegada);
 	}
 
 	@Override

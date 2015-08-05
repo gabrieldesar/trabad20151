@@ -12,9 +12,9 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-public class Grafico extends JFrame{
-	
-	public Grafico(){
+public class Grafico extends JFrame {
+
+	public Grafico() {
 		this.setTitle("Grafico");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().add(new JPanel(), BorderLayout.CENTER);
@@ -22,24 +22,21 @@ public class Grafico extends JFrame{
 		this.pack();
 		this.setVisible(true);
 	}
-	public void printCenario(DefaultCategoryDataset dataset){
+
+	public void printCenario(DefaultCategoryDataset dataset) {
 		String chartTitle = "";
-	      JFreeChart lineChart = ChartFactory.createLineChart(
-	         chartTitle,
-	         "","",
-	         dataset,
-	         PlotOrientation.VERTICAL,
-	         true,true,false);
-	         
-	      ChartPanel chartPanel = new ChartPanel( lineChart );
-	      JPanel painel = new JPanel();
-	      painel.add(chartPanel);
-	      chartPanel.setPreferredSize( new java.awt.Dimension( 100 ,100 ) );
-	      this.add(painel);
+		JFreeChart lineChart = ChartFactory.createLineChart(chartTitle, "", "",
+				dataset, PlotOrientation.VERTICAL, true, true, false);
+
+		ChartPanel chartPanel = new ChartPanel(lineChart);
+		JPanel painel = new JPanel();
+		painel.add(chartPanel);
+		chartPanel.setPreferredSize(new java.awt.Dimension(100, 100));
+		this.add(painel);
 	}
-	
+
 	public static void main(String[] args) {
-		//TODO LER DE ARQUIVOS
+		// TODO LER DE ARQUIVOS
 		new Grafico();
 	}
 }

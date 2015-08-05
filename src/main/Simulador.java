@@ -8,6 +8,8 @@ import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 public abstract class Simulador {
 	public final int FATOR_TRUNCAMENTO_TEMPO = 10;
+	public static int rangeLower = 1;
+	public static int rangeUpper = 300;
 	//public static int ID_SIMULADOR = 0;
 	float lambda;
 	float mi;
@@ -38,13 +40,13 @@ public abstract class Simulador {
 			int tempoProximaChegada = entradaCliente();
 			if (i + tempoProximaChegada < tempoSimulacao){
 				clientesNoSistema.add(new Cliente(i+tempoProximaChegada));
-				i = i + tempoProximaChegada;
+				i = i + tempoProximaChegada; //- 1;
 				//OBS: Estamos perdendo 1 tempo?
 			}	
 		}		
 	}
 	
-	public void servirClientes(){
+	public void servirClientes() {
 		int numClientesServidos = 0;
 		for (long i=0; i<= tempoSimulacao; i++){
 			if (numClientesServidos == clientesNoSistema.size()){
@@ -56,7 +58,7 @@ public abstract class Simulador {
 			}
 			if (i >= clientesNoSistema.get(numClientesServidos).tempoChegada){
 				
-				long tempoServico = Servidor.geraTempoDeServico(mi);
+				long tempoServico = Servidor.geraTempoDeServico(mi,rangeLower, rangeUpper);
 				if (i + tempoServico <= tempoSimulacao){
 					clientesNoSistema.get(numClientesServidos).tempoServico= tempoServico;
 					clientesNoSistema.get(numClientesServidos).tempoSaida= i+tempoServico;
@@ -70,7 +72,7 @@ public abstract class Simulador {
 					}
 					numClientesServidos++;
 					
-					i = i + tempoServico; 
+					i = i + tempoServico; //- 1; 
 					//OBS: Estamos perdendo 1 tempo?
 					
 				}
@@ -108,11 +110,12 @@ public abstract class Simulador {
 			tempoMedioNoSistema = tempoTotalNoSistema/numeroClientes;
 		}
 		
-		float numeroMedioDeClientes = lambda * tempoMedioNoSistema;  
+		double numeroMedioDeClientes = lambda * tempoMedioNoSistema;  
 		
 	
 		SimulationLogger sl = new SimulationLogger(nomeSimulador+getIdSimulador());
-		sl.printSimulationMetrics(nomeSimulador+getIdSimulador(), lambda, mi, p, numeroMedioDeClientes);
+		
+		sl.printSimulationMetrics(nomeSimulador+getIdSimulador(), lambda, mi, p, numeroMedioDeClientes,clientesNoSistema.size(), instantesOciosos, tempoSimulacao);
 		
 		
 	}

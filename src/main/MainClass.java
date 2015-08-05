@@ -37,7 +37,7 @@ public class MainClass {
 			}				
 		}while(!quitWhile);
 		*/
-		tempoSimulacao = 20;
+		tempoSimulacao = 10000;
 		//Cenários 1 e 2
 		
 		taxaEntrada = 0.05f;
