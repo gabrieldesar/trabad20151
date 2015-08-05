@@ -1,7 +1,7 @@
 Lambda: 0.1
 Mi: 3.5
 Prob. Reentrada: 0.0
-Num Médio de Clientes no Sistema: 498.6000061035156
-Numero total de Clientes no sistema no periodo de simulação: 899
-Tempo ocioso no sistema: 8044
-Tempo Ocupado do sistema: 1956
+Num Médio de Clientes no Sistema: 500.20001220703125
+Numero total de Clientes no sistema no periodo de simulação: 919
+Tempo ocioso no sistema: 7995
+Tempo Ocupado do sistema: 2005

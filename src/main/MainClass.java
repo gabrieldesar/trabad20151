@@ -1,7 +1,9 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class MainClass {
@@ -13,7 +15,7 @@ public class MainClass {
 	List<SimuladorPoisson> cenario4 = new ArrayList<SimuladorPoisson>();
 	List<SimuladorDeterministico> cenario5 = new ArrayList<SimuladorDeterministico>();
 	List<SimuladorUniforme> cenario6 = new ArrayList<SimuladorUniforme>();
-	
+	Map <Float, Double> mapCenario = new HashMap<Float, Double>();
 	public MainClass(){
 		float taxaEntrada;
 		float taxaServico;
@@ -43,11 +45,14 @@ public class MainClass {
 		taxaEntrada = 0.05f;
 		taxaServico = 1f;
 		probReentrada = 0f;
-		
+		int count =0;
 		while (taxaEntrada < 0.95){
 			cenario1.add(new SimuladorPoisson(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
 			cenario2.add(new SimuladorDeterministico(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
+			mapCenario.put(taxaEntrada, cenario1.get(count).numeroMedioDeClientes);
+			count++;
 			taxaEntrada += 0.05f;
+			
 		}
 		
 		//Cenários 3, 4, 5 e 6

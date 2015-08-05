@@ -17,6 +17,7 @@ public abstract class Simulador {
 	String nomeSimulador;
 	long tempoSimulacao;
 	List<Long> instantesOciosos = new ArrayList<Long>();
+	double numeroMedioDeClientes;
 	
 	
 	Servidor servidor;
@@ -110,7 +111,7 @@ public abstract class Simulador {
 			tempoMedioNoSistema = tempoTotalNoSistema/numeroClientes;
 		}
 		
-		double numeroMedioDeClientes = lambda * tempoMedioNoSistema;  
+		numeroMedioDeClientes = lambda * tempoMedioNoSistema;  
 		
 	
 		SimulationLogger sl = new SimulationLogger(nomeSimulador+getIdSimulador());
