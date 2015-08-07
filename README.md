@@ -1,2 +1,2 @@
-# trabad20151
-TrabalhoAD - Simulação de Filas
+# Avaliação de Desempenho - UFRJ - 2015.1
+Trabalho Final da disciplina - Simulação em Filas
