@@ -1,2 +1,2 @@
-# Trabalho Final da disciplina Avaliação de Desempenho/UFRJ 2015.1
-Simulação em Filas
+# Avaliação de Desempenho - UFRJ - 2015.1
+Trabalho Final da disciplina - Simulação em Filas
