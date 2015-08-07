@@ -7,7 +7,7 @@ public class SimuladorPoisson extends Simulador {
 		super(lambda, mi, p, tempoSimulacao);
 		ID_POISSON++;
 		setNomeSimulador();
-		System.out.println("Criado Simulador " + nomeSimulador+ID_POISSON);	
+		//System.out.println("Criado Simulador " + nomeSimulador+ID_POISSON);	
 		simula();
 	}
 

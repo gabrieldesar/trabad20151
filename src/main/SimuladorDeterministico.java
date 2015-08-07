@@ -7,7 +7,7 @@ public class SimuladorDeterministico extends Simulador {
 		super(lambda, mi, p,tempoSimulacao);
 		ID_DETERMINISTICO++;
 		setNomeSimulador();
-		System.out.println("Criado Simulador " + nomeSimulador+ID_DETERMINISTICO);		
+		//System.out.println("Criado Simulador " + nomeSimulador+ID_DETERMINISTICO);		
 		simula();
 	}
 

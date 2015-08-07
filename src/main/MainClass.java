@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class MainClass {
 	Scanner scan;
@@ -15,7 +16,7 @@ public class MainClass {
 	List<SimuladorPoisson> cenario4 = new ArrayList<SimuladorPoisson>();
 	List<SimuladorDeterministico> cenario5 = new ArrayList<SimuladorDeterministico>();
 	List<SimuladorUniforme> cenario6 = new ArrayList<SimuladorUniforme>();
-	Map <Float, Double> mapCenario = new HashMap<Float, Double>();
+	Map <Float, Double> mapCenario = new TreeMap<Float, Double>();
 	public MainClass(){
 		float taxaEntrada;
 		float taxaServico;
@@ -23,13 +24,13 @@ public class MainClass {
 		
 		
 		
-		scan = new Scanner(System.in);
-		System.out.println("----SIMULAÇÃO DE REDE DE FILAS----");
-		System.out.println("");
-		System.out.println("----Informe o tempo considerado para simulação----");
+		//scan = new Scanner(System.in);
+		//System.out.println("----SIMULAÇÃO DE REDE DE FILAS----");
+		//System.out.println("");
+		//System.out.println("----Informe o tempo considerado para simulação----");
 		
 		//TODO - CAPTURAR INPUT DO TEMPO DE SIMULACAO
-		boolean quitWhile=false;
+		//boolean quitWhile=false;
 		/*do{
 			try{
 				tempoSimulacao = Long.parseLong(scan.nextLine());
@@ -39,7 +40,7 @@ public class MainClass {
 			}				
 		}while(!quitWhile);
 		*/
-		tempoSimulacao = 10000;
+		tempoSimulacao = 1000;
 		//Cenários 1 e 2
 		
 		taxaEntrada = 0.05f;
@@ -73,10 +74,11 @@ public class MainClass {
 			cenario6.add(new SimuladorUniforme(taxaEntrada, taxaServico, probReentrada, intervaloMinCenario6, intervaloMaxCenario6, tempoSimulacao));
 			taxaServico += 0.5f;
 		}
-		
-		
-		
+				
 	}
+	
+	
+	
 	public static void main(String[] args) {
 		new MainClass();
 	}

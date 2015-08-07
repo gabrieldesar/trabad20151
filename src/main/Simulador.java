@@ -90,15 +90,15 @@ public abstract class Simulador {
 		//System.out.println(nomeSimulador+Simulador.ID_SIMULADOR + " servir clientes");
 		servirClientes();	
 		//System.out.println(nomeSimulador+Simulador.ID_SIMULADOR + " vai imprimir clientes");
-		log();
+		calculoMetricas();
+		//log();
 		
 	}
 	
 	public abstract void setNomeSimulador();
 	public abstract int getIdSimulador();
 	
-	//Saída da simulação 
-	public void log(){
+	public void calculoMetricas(){
 		int numeroClientes = clientesNoSistema.size();
 		long tempoTotalNoSistema=0;
 		for (int i=0; i<numeroClientes; i++){
@@ -111,14 +111,12 @@ public abstract class Simulador {
 			tempoMedioNoSistema = tempoTotalNoSistema/numeroClientes;
 		}
 		
-		numeroMedioDeClientes = lambda * tempoMedioNoSistema;  
-		
-	
+		numeroMedioDeClientes = lambda * tempoMedioNoSistema; 
+	}
+	//Saída da simulação 
+	public void log(){
 		SimulationLogger sl = new SimulationLogger(nomeSimulador+getIdSimulador());
-		
 		sl.printSimulationMetrics(nomeSimulador+getIdSimulador(), lambda, mi, p, numeroMedioDeClientes,clientesNoSistema.size(), instantesOciosos, tempoSimulacao);
-		
-		
 	}
 	
 	
