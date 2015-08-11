@@ -2,8 +2,6 @@ package main;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -15,7 +13,9 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 public class Grafico extends JFrame {
 	public static final int MULTI_X_AXIX = 100;
@@ -26,7 +26,7 @@ public class Grafico extends JFrame {
 
 	public void printCenario() {
 		String chartTitle = "";
-		JFreeChart lineChart = ChartFactory.createLineChart(chartTitle, "", "",
+		JFreeChart lineChart = ChartFactory.createXYLineChart(chartTitle, "", "",
 				createDataset(), PlotOrientation.VERTICAL, true, true, false);
 
 		
@@ -45,38 +45,44 @@ public class Grafico extends JFrame {
 	}
 
 		
-	public DefaultCategoryDataset createDataset(){
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		List<Double> valores = new ArrayList<Double>();
-		int numSimulacoes = 100;
-		Map <Integer, Double> mediaCenario = new TreeMap<Integer, Double>();
+	private XYDataset createDataset() {
+	    XYSeriesCollection dataset = new XYSeriesCollection();
+	    XYSeries series1 = new XYSeries("Média Amostral");
+	    XYSeries series2 = new XYSeries("Min");
+	    XYSeries series3 = new XYSeries("Max");
+	 
+		int numSimulacoes = 5;
+		Map <Float, Double> mediaCenario = new TreeMap<Float, Double>();
+		MapasSimulacao mapas = new MapasSimulacao();
 		for (int i=0; i< numSimulacoes; i++){
 			System.out.println("Simulação "+(i+1));
 			MainClass main = new MainClass();
-			Map <Float, Double> mapCenario = main.mapCenario;
-			for (Float key : mapCenario.keySet()){
-				valores.add(mapCenario.get(key));
+			mapas.add(main.mapCenario);
+			for (Float key : mapas.get(i).keySet()){
 				if (i==0){
-					mediaCenario.put(Math.round(key*MULTI_X_AXIX), (mapCenario.get(key)/numSimulacoes));
+					mediaCenario.put(key, (mapas.get(i).get(key)/numSimulacoes));
 				}else{
-					mediaCenario.put(Math.round(key*MULTI_X_AXIX), mediaCenario.get(Math.round(key*MULTI_X_AXIX))+(mapCenario.get(key)/numSimulacoes));
+					mediaCenario.put(key, mediaCenario.get(key)+(mapas.get(i).get(key)/numSimulacoes));
 				}
 				
 			}
 		}
-		dentroIntervaloConfianca(valores);
-		//MainClass main = new MainClass();
 		
-		//Map <Float, Double> mapCenario = main.mapCenario;
-		
-		
-		
-		for (Integer key : mediaCenario.keySet()){
+		for (Float key : mediaCenario.keySet()){
 			Double value = mediaCenario.get(key);
-			dataset.addValue(value, "número medio de clientes no sistema", key+"");
+			series1.add(key, value);
+			Double min = getMin(mapas.valuesAsList(key));
+			Double max = getMax(mapas.valuesAsList(key));
+			series2.add(key, min);
+			series3.add(key, max);
 		}
-		return dataset;
+	 
+	    dataset.addSeries(series1);
+	    dataset.addSeries(series2);
+	    dataset.addSeries(series3);
+	    return dataset;
 	}
+
 	public double getMediaAmostral(List<Double> valores){
 		double mediaAmostral=0;
 		for (int i=0; i<valores.size(); i++){
@@ -97,25 +103,22 @@ public class Grafico extends JFrame {
 		double desvioPadrao = Math.sqrt(somatorioValores/(numSimulacoes-1));
 		
 		return desvioPadrao;
-		
-		 
 	}
-	
-	public boolean dentroIntervaloConfianca(List<Double> valores){
+
+	public double getMin(List<Double> valores){
 		double mediaAmostral = getMediaAmostral(valores);
-		double min = (mediaAmostral - 1.96 * getDesvioPadrao(valores)) / Math.sqrt(valores.size());
-		double max = (mediaAmostral + 1.96 * getDesvioPadrao(valores)) / Math.sqrt(valores.size());
-		System.out.println("Intervalo de confiança: "+ min + " - "+ max);
-		System.out.println("Média amostral: "+mediaAmostral);
-		if (mediaAmostral > max || mediaAmostral < min){
-			return false;
-		}
-		return true;
-		
+		double min = mediaAmostral - (1.96 * getDesvioPadrao(valores)) / Math.sqrt(valores.size());
+		return min;
 	}
+	public double getMax(List<Double> valores){
+		double mediaAmostral = getMediaAmostral(valores);
+		double max = mediaAmostral + (1.96 * getDesvioPadrao(valores)) / Math.sqrt(valores.size());
+		return max;
+	}
+
 	public static void main(String[] args) {
-		// TODO LER DE ARQUIVOS
 		new Grafico().printCenario();;
 		
 	}
+	//PLOTAR GRAFICO NUM CLIENTES ESPERADO POR TEMPO(MEDIA OLHANDO PARA TRAS) E INSTANTANEO
 }
