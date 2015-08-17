@@ -17,10 +17,10 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-public class Grafico extends JFrame {
+public class Grafico3a extends JFrame {
 	public static final int MULTI_X_AXIX = 100;
 	
-	public Grafico() {
+	public Grafico3a() {
 		
 	}
 
@@ -51,13 +51,13 @@ public class Grafico extends JFrame {
 	    XYSeries series2 = new XYSeries("Min");
 	    XYSeries series3 = new XYSeries("Max");
 	 
-		int numSimulacoes = 5;
+		int numSimulacoes = 100;
 		Map <Float, Double> mediaCenario = new TreeMap<Float, Double>();
 		MapasSimulacao mapas = new MapasSimulacao();
 		for (int i=0; i< numSimulacoes; i++){
 			System.out.println("Simulação "+(i+1));
 			MainClass main = new MainClass();
-			mapas.add(main.mapCenario);
+			mapas.add(main.mapCenario1);
 			for (Float key : mapas.get(i).keySet()){
 				if (i==0){
 					mediaCenario.put(key, (mapas.get(i).get(key)/numSimulacoes));
@@ -117,7 +117,7 @@ public class Grafico extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new Grafico().printCenario();;
+		new Grafico3a().printCenario();;
 		
 	}
 	//PLOTAR GRAFICO NUM CLIENTES ESPERADO POR TEMPO(MEDIA OLHANDO PARA TRAS) E INSTANTANEO

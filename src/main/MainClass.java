@@ -16,7 +16,12 @@ public class MainClass {
 	List<SimuladorPoisson> cenario4 = new ArrayList<SimuladorPoisson>();
 	List<SimuladorDeterministico> cenario5 = new ArrayList<SimuladorDeterministico>();
 	List<SimuladorUniforme> cenario6 = new ArrayList<SimuladorUniforme>();
-	Map <Float, Double> mapCenario = new TreeMap<Float, Double>();
+	Map <Float, Double> mapCenario1 = new TreeMap<Float, Double>();
+	Map <Float, Double> mapCenario2 = new TreeMap<Float, Double>();
+	Map <Float, Double> mapCenario3 = new TreeMap<Float, Double>();
+	Map <Float, Double> mapCenario4 = new TreeMap<Float, Double>();
+	Map <Float, Double> mapCenario5 = new TreeMap<Float, Double>();
+	Map <Float, Double> mapCenario6 = new TreeMap<Float, Double>();
 	public MainClass(){
 		float taxaEntrada;
 		float taxaServico;
@@ -40,7 +45,7 @@ public class MainClass {
 			}				
 		}while(!quitWhile);
 		*/
-		tempoSimulacao = 1000;
+		tempoSimulacao = 300;
 		//Cenários 1 e 2
 		
 		taxaEntrada = 0.05f;
@@ -50,7 +55,8 @@ public class MainClass {
 		while (taxaEntrada < 0.95){
 			cenario1.add(new SimuladorPoisson(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
 			cenario2.add(new SimuladorDeterministico(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
-			mapCenario.put(taxaEntrada, cenario1.get(count).numeroMedioDeClientes);
+			mapCenario1.put(taxaEntrada, cenario1.get(count).numeroMedioDeClientes);
+			mapCenario2.put(taxaEntrada, cenario2.get(count).numeroMedioDeClientes);
 			count++;
 			taxaEntrada += 0.05f;
 			
@@ -66,12 +72,17 @@ public class MainClass {
 		taxaEntrada = 0.01f;
 		taxaServico = 1f;
 		probReentrada = 0.9f;
-		
+		count =0;
 		while (taxaServico < 10.5f){
 			cenario3.add(new SimuladorUniforme(taxaEntradaCenario3, taxaServico, probReentradaCenario3, intervaloMinCenario3, intervaloMaxCenario3, tempoSimulacao));
 			cenario4.add(new SimuladorPoisson(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
 			cenario5.add(new SimuladorDeterministico(taxaEntrada, taxaServico, probReentrada, tempoSimulacao));
 			cenario6.add(new SimuladorUniforme(taxaEntrada, taxaServico, probReentrada, intervaloMinCenario6, intervaloMaxCenario6, tempoSimulacao));
+			mapCenario3.put(taxaServico, cenario3.get(count).numeroMedioDeClientes);
+			mapCenario4.put(taxaServico, cenario4.get(count).numeroMedioDeClientes);
+			mapCenario5.put(taxaServico, cenario5.get(count).numeroMedioDeClientes);
+			mapCenario6.put(taxaServico, cenario6.get(count).numeroMedioDeClientes);
+			count++;
 			taxaServico += 0.5f;
 		}
 				
