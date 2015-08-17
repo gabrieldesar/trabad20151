@@ -19,9 +19,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 public class Grafico extends JFrame {
 	public static final int MULTI_X_AXIX = 100;
-	
-	public Grafico() {
-		
+	Experimento exp;
+	public Grafico(Experimento exp) {
+		this.exp = exp;
 	}
 
 	public void printCenario() {
@@ -51,28 +51,13 @@ public class Grafico extends JFrame {
 	    XYSeries series2 = new XYSeries("Min");
 	    XYSeries series3 = new XYSeries("Max");
 	 
-		int numSimulacoes = 5;
-		Map <Float, Double> mediaCenario = new TreeMap<Float, Double>();
-		MapasSimulacao mapas = new MapasSimulacao();
-		for (int i=0; i< numSimulacoes; i++){
-			System.out.println("Simulação "+(i+1));
-			MainClass main = new MainClass();
-			mapas.add(main.mapCenario);
-			for (Float key : mapas.get(i).keySet()){
-				if (i==0){
-					mediaCenario.put(key, (mapas.get(i).get(key)/numSimulacoes));
-				}else{
-					mediaCenario.put(key, mediaCenario.get(key)+(mapas.get(i).get(key)/numSimulacoes));
-				}
-				
-			}
-		}
 		
-		for (Float key : mediaCenario.keySet()){
-			Double value = mediaCenario.get(key);
+		
+		for (Float key : exp.conjCenariosList.get(0).mediaCenario.keySet()){
+			Double value = exp.conjCenariosList.get(0).mediaCenario.get(key);
 			series1.add(key, value);
-			Double min = getMin(mapas.valuesAsList(key));
-			Double max = getMax(mapas.valuesAsList(key));
+			Double min = exp.getMin(exp.conjCenariosList.get(0).mapasValoresCenario.valuesAsList(key));
+			Double max = exp.getMax(exp.conjCenariosList.get(0).mapasValoresCenario.valuesAsList(key));
 			series2.add(key, min);
 			series3.add(key, max);
 		}
@@ -83,42 +68,7 @@ public class Grafico extends JFrame {
 	    return dataset;
 	}
 
-	public double getMediaAmostral(List<Double> valores){
-		double mediaAmostral=0;
-		for (int i=0; i<valores.size(); i++){
-			mediaAmostral += valores.get(i)/valores.size();
-		}
-		return mediaAmostral;
-	}
-	
-	public double getDesvioPadrao(List<Double> valores){
-		int numSimulacoes = valores.size();
-		double mediaAmostral = getMediaAmostral(valores);
-		
-		double somatorioValores=0;
-		for (int i=0; i<valores.size(); i++){
-			somatorioValores+= Math.pow(valores.get(i) - mediaAmostral, 2);
-		}
-		
-		double desvioPadrao = Math.sqrt(somatorioValores/(numSimulacoes-1));
-		
-		return desvioPadrao;
-	}
 
-	public double getMin(List<Double> valores){
-		double mediaAmostral = getMediaAmostral(valores);
-		double min = mediaAmostral - (1.96 * getDesvioPadrao(valores)) / Math.sqrt(valores.size());
-		return min;
-	}
-	public double getMax(List<Double> valores){
-		double mediaAmostral = getMediaAmostral(valores);
-		double max = mediaAmostral + (1.96 * getDesvioPadrao(valores)) / Math.sqrt(valores.size());
-		return max;
-	}
 
-	public static void main(String[] args) {
-		new Grafico().printCenario();;
-		
-	}
 	//PLOTAR GRAFICO NUM CLIENTES ESPERADO POR TEMPO(MEDIA OLHANDO PARA TRAS) E INSTANTANEO
 }
