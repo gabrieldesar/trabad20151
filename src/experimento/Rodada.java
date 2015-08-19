@@ -15,11 +15,13 @@ public class Rodada
 {
 	List<Simulador> simuladores;
 	Map <Float, Double> numMedioClientesPorLambda;
+	Map <Float, Double> numMedioClientesPorMi;
 	Properties properties;
 	
 	public Rodada(Properties properties){
 		simuladores = new ArrayList<Simulador>();
 		numMedioClientesPorLambda = new TreeMap<Float, Double>();
+		numMedioClientesPorMi = new TreeMap<Float, Double>();
 		this.properties = new Properties(properties.name, properties.taxaEntrada, properties.taxaServico, properties.probReentrada, properties.iterateValue, properties.simulatorType);
 
 	}
@@ -30,6 +32,7 @@ public class Rodada
 			createSimulator();
 			simuladores.get(count).simula();
 			numMedioClientesPorLambda.put(properties.taxaEntrada, simuladores.get(count).numeroMedioDeClientes);
+			numMedioClientesPorMi.put(properties.taxaServico, simuladores.get(count).numeroMedioDeClientes);
 			count++;
 			if (properties.iterateValue == IterateValue.LAMBDA){
 				properties.taxaEntrada += 0.05f;

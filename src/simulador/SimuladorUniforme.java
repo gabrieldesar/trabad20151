@@ -19,6 +19,7 @@ public class SimuladorUniforme extends Simulador {
 	public int entradaCliente() {
 		int proximaChegada;
 		proximaChegada = (int) Math.round(Math.random()*(max-min) + min);
+		//System.out.println(proximaChegada);
 		
 		return proximaChegada;	
 	}

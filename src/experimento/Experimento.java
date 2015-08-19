@@ -9,20 +9,20 @@ import simulador.SimulatorType;
 
 public class Experimento {
 	private int numCenarios;
-	public static final int NUM_SIMULACOES = 300;
-	public static final long TEMPO_SIMULACAO = 3000;
+	public static final int NUM_SIMULACOES = 200;
+	public static final long TEMPO_SIMULACAO = 2000;
 	public static final Random range = new Random();
 	List<Cenario> cenarios;
 	
 	
 	public Experimento(){			
 		cenarios = new ArrayList<Cenario>();
-		cenarios.add(new Cenario(new Properties("Cenario1", 0.05f, 1f, 0f, IterateValue.LAMBDA, SimulatorType.POISSON)));
-		cenarios.add(new Cenario(new Properties("Cenario2", 0.05f, 1f, 0f, IterateValue.LAMBDA, SimulatorType.DETERMINISTICO)));
+		//cenarios.add(new Cenario(new Properties("Cenario1", 0.05f, 1f, 0f, IterateValue.LAMBDA, SimulatorType.POISSON)));
+		//cenarios.add(new Cenario(new Properties("Cenario2", 0.05f, 1f, 0f, IterateValue.LAMBDA, SimulatorType.DETERMINISTICO)));
 		//cenarios.add(new Cenario(new Properties("Cenario3", 0.1f, 1f, 0f, 5, 15, IterateValue.MI, SimulatorType.UNIFORME)));
 		//cenarios.add(new Cenario(new Properties("Cenario4", 0.01f, 1f, 0.9f, IterateValue.MI, SimulatorType.POISSON)));
 		//cenarios.add(new Cenario(new Properties("Cenario5", 0.01f, 1f, 0.9f, IterateValue.MI, SimulatorType.DETERMINISTICO)));
-		//cenarios.add(new Cenario(new Properties("Cenario6", 0.01f, 1f, 0.9f, 50, 150, IterateValue.MI, SimulatorType.UNIFORME)));
+		cenarios.add(new Cenario(new Properties("Cenario6", 0.01f, 1f, 0.9f, 50, 150, IterateValue.MI, SimulatorType.UNIFORME)));
 		numCenarios = cenarios.size();
 	}
 

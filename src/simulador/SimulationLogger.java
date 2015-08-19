@@ -9,7 +9,7 @@ import java.util.List;
 public class SimulationLogger
 {
 	String fileName;
-	PrintWriter fileWriter;
+	static PrintWriter fileWriter;
 	
 	public SimulationLogger(String fileName){
 		this.fileName = fileName;
@@ -52,5 +52,16 @@ public class SimulationLogger
 	
 	public void logLine(long iterationNumber, Boolean servidorOcupado, long clientesNoSistema) {
 		
+	}
+	public static void printCFD(List<Long> temposEntreChegadas) {
+		try {
+			BufferedWriter out = new BufferedWriter( fileWriter );
+			for (int i=0; i<temposEntreChegadas.size(); i++){
+		        out.write(temposEntreChegadas.get(i)+" "+i/temposEntreChegadas.size()+"\n");
+			}
+	        out.close();
+	    } catch (IOException e) {
+	    	System.out.println("Erro ao escrever em arquivo!");
+	    }
 	}
 }

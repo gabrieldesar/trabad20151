@@ -98,16 +98,11 @@ public abstract class Simulador {
 		int numeroClientes = clientesNoSistema.size();
 		long tempoTotalNoSistema=0;
 		for (int i=0; i<numeroClientes; i++){
-			/*if ((Math.max(clientesNoSistema.get(i).tempoSaida, Experimento.TEMPO_SIMULACAO) - clientesNoSistema.get(i).tempoChegada)<0 ){
-				System.out.println("Menor que 0");
-				System.out.println(clientesNoSistema.get(i).tempoSaida + " --- " + clientesNoSistema.get(i).tempoChegada);
-			}*/
 			if (clientesNoSistema.get(i).tempoSaida == 0 && clientesNoSistema.get(i).tempoChegada!=0){
 				tempoTotalNoSistema+= Experimento.TEMPO_SIMULACAO - clientesNoSistema.get(i).tempoChegada;
 			}else{
 				tempoTotalNoSistema+= clientesNoSistema.get(i).tempoSaida - clientesNoSistema.get(i).tempoChegada;
 			}
-			//System.out.println(tempoTotalNoSistema);
 		}
 		long tempoMedioNoSistema;
 		if (numeroClientes==0){
@@ -119,22 +114,6 @@ public abstract class Simulador {
 		numeroMedioDeClientes = lambda*tempoMedioNoSistema; 
 	}
 	
-	/*public void calculoMetricasAntigo(){
-		int numeroClientes = clientesNoSistema.size();
-		long tempoTotalNoSistema=0;
-		for (int i=0; i<numeroClientes; i++){
-			tempoTotalNoSistema+= Math.min(clientesNoSistema.get(i).tempoSaida, Experimento.TEMPO_SIMULACAO) - clientesNoSistema.get(i).tempoChegada;
-			System.out.println(tempoTotalNoSistema);
-		}
-		long tempoMedioNoSistema;
-		if (numeroClientes==0){
-			tempoMedioNoSistema = 0;
-		}else{
-			tempoMedioNoSistema = tempoTotalNoSistema/numeroClientes;
-		}
-		//numeroMedioDeClientes = tempoTotalNoSistema;
-		numeroMedioDeClientes = lambda * tempoMedioNoSistema; 
-	}*/
 	//Saída da simulação 
 	public void log(){
 		SimulationLogger sl = new SimulationLogger(nomeSimulador+getIdSimulador());

@@ -71,8 +71,59 @@ public class Grafico extends JFrame {
 	 
 		
 		
-		for (Float key : exp.cenarios.get(1).mediaNumClientesPorLambda.keySet()){
-			Double value = exp.cenarios.get(1).mediaNumClientesPorLambda.get(key);
+		for (Float key : exp.cenarios.get(0).mediaNumClientesPorLambda.keySet()){
+			Double value = exp.cenarios.get(0).mediaNumClientesPorLambda.get(key);
+			series1.add(key, value);
+		}
+	 
+	    dataset.addSeries(series1);
+	    return dataset;
+	}
+	public XYDataset cenario3NumClientesPorMi() {
+	    XYSeriesCollection dataset = new XYSeriesCollection();
+	    XYSeries series1 = new XYSeries("Média Amostral");
+	 
+		for (Float key : exp.cenarios.get(0).mediaNumClientesPorMi.keySet()){
+			Double value = exp.cenarios.get(0).mediaNumClientesPorMi.get(key);
+			series1.add(key, value);
+		}
+	 
+	    dataset.addSeries(series1);
+	    return dataset;
+	}
+	
+	public XYDataset cenario4NumClientesPorMi() {
+	    XYSeriesCollection dataset = new XYSeriesCollection();
+	    XYSeries series1 = new XYSeries("Média Amostral");
+	 
+		for (Float key : exp.cenarios.get(0).mediaNumClientesPorMi.keySet()){
+			Double value = exp.cenarios.get(0).mediaNumClientesPorMi.get(key);
+			series1.add(key, value);
+		}
+	 
+	    dataset.addSeries(series1);
+	    return dataset;
+	}
+	
+	public XYDataset cenario5NumClientesPorMi() {
+	    XYSeriesCollection dataset = new XYSeriesCollection();
+	    XYSeries series1 = new XYSeries("Média Amostral");
+	 
+		for (Float key : exp.cenarios.get(0).mediaNumClientesPorMi.keySet()){
+			Double value = exp.cenarios.get(0).mediaNumClientesPorMi.get(key);
+			series1.add(key, value);
+		}
+	 
+	    dataset.addSeries(series1);
+	    return dataset;
+	}
+	
+	public XYDataset cenario6NumClientesPorMi() {
+	    XYSeriesCollection dataset = new XYSeriesCollection();
+	    XYSeries series1 = new XYSeries("Média Amostral");
+	 
+		for (Float key : exp.cenarios.get(0).mediaNumClientesPorMi.keySet()){
+			Double value = exp.cenarios.get(0).mediaNumClientesPorMi.get(key);
 			series1.add(key, value);
 		}
 	 
