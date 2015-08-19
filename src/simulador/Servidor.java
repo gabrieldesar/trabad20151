@@ -1,12 +1,13 @@
-package main;
+package simulador;
 
 import java.util.Random;
 
 import org.uncommons.maths.random.ExponentialGenerator;
 
+import experimento.Experimento;
+
 public class Servidor
 {
-	private static final Random range = new Random();
 	private static final double FATOR_TRUNCAMENTO_TEMPO = 10;	
 	public static long geraTempoDeServico(float mi,int rangeLower, int rangeUpper)
 	{
@@ -15,7 +16,7 @@ public class Servidor
 		}
 		if (mi > 0)
 		{
-			ExponentialGenerator exp = new ExponentialGenerator(1/mi, range);
+			ExponentialGenerator exp = new ExponentialGenerator(mi, Experimento.range);
 			
 			//double tempoServico = -Math.log(1 - (1 - Math.exp(-mi)) * Math.random()) / mi;
 			double tempoServico = exp.nextValue();

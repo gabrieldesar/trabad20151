@@ -1,18 +1,18 @@
-package main;
+package simulador;
 
 import java.util.Random;
 
 import org.uncommons.maths.random.ExponentialGenerator;
 
+import experimento.Experimento;
+
 public class SimuladorPoisson extends Simulador {
 	public static int ID_POISSON = 0;
-	private static final Random range = new Random();
-	public SimuladorPoisson(float lambda, float mi, float p, long tempoSimulacao) {
-		super(lambda, mi, p, tempoSimulacao);
+	public SimuladorPoisson(float lambda, float mi, float p) {
+		super(lambda, mi, p);
 		ID_POISSON++;
 		setNomeSimulador();
 		//System.out.println("Criado Simulador " + nomeSimulador+ID_POISSON);	
-		simula();
 	}
 
 	@Override
@@ -20,8 +20,8 @@ public class SimuladorPoisson extends Simulador {
 		double proximaChegada;
 		//proximaChegada = -Math.log(1 - (1 - Math.exp(-lambda)) * Math.random()) / lambda;
 		//proximaChegada = -Math.log(Math.exp(- lambda * rangeLower) - (Math.exp(- lambda * rangeLower) - Math.exp(-lambda*rangeUpper)) * Math.random()) / lambda;
-		ExponentialGenerator exp = new ExponentialGenerator(1/lambda, range);
-
+		ExponentialGenerator exp = new ExponentialGenerator(lambda, Experimento.range);
+		System.out.println(exp.nextValue());
 		proximaChegada = exp.nextValue();
 		
 		

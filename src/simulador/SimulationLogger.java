@@ -1,4 +1,4 @@
-package main;
+package simulador;
 
 import java.io.BufferedWriter;
 import java.io.File;

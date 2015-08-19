@@ -1,35 +1,31 @@
-package main;
+package simulador;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+import experimento.Experimento;
 
 public abstract class Simulador {
 	public final int FATOR_TRUNCAMENTO_TEMPO = 10;
 	public static int rangeLower = 1;
 	public static int rangeUpper = 300;
 	//public static int ID_SIMULADOR = 0;
-	float lambda;
-	float mi;
-	float p;
-	String nomeSimulador;
-	long tempoSimulacao;
-	List<Long> instantesOciosos = new ArrayList<Long>();
-	double numeroMedioDeClientes;
+	public float lambda;
+	public float mi;
+	public float p;
+	public String nomeSimulador;
+	public List<Long> instantesOciosos = new ArrayList<Long>();
+	public double numeroMedioDeClientes;
+	public Servidor servidor;
+	public Cliente proximaChegada = null;
+	public List<Cliente> clientesNoSistema = new ArrayList<Cliente>();
 	
-	
-	Servidor servidor;
-	Cliente proximaChegada = null;
-	List<Cliente> clientesNoSistema = new ArrayList<Cliente>();
-	
-	public Simulador(float lambda, float mi, float p, long tempoSimulacao){
+	public Simulador(float lambda, float mi, float p){
 		//ID_SIMULADOR++;
 		this.lambda = lambda;
 		this.mi = mi;
 		this.p = p;		
-		this.tempoSimulacao = tempoSimulacao;
 	}
 	
 	//Gerar um cliente novo que entra no sistema
@@ -37,9 +33,9 @@ public abstract class Simulador {
 	
 	
 	public void gerarClientes(){
-		for (long i=0; i<= tempoSimulacao; i++){
+		for (long i=0; i<= Experimento.TEMPO_SIMULACAO; i++){
 			int tempoProximaChegada = entradaCliente();
-			if (i + tempoProximaChegada < tempoSimulacao){
+			if (i + tempoProximaChegada < Experimento.TEMPO_SIMULACAO){
 				clientesNoSistema.add(new Cliente(i+tempoProximaChegada));
 				i = i + tempoProximaChegada; //- 1;
 				//OBS: Estamos perdendo 1 tempo?
@@ -49,9 +45,9 @@ public abstract class Simulador {
 	
 	public void servirClientes() {
 		int numClientesServidos = 0;
-		for (long i=0; i<= tempoSimulacao; i++){
+		for (long i=0; i<= Experimento.TEMPO_SIMULACAO; i++){
 			if (numClientesServidos == clientesNoSistema.size()){
-				while (i<= tempoSimulacao){
+				while (i<= Experimento.TEMPO_SIMULACAO){
 					instantesOciosos.add(i);
 					i++;
 				}
@@ -60,7 +56,7 @@ public abstract class Simulador {
 			if (i >= clientesNoSistema.get(numClientesServidos).tempoChegada){
 				
 				long tempoServico = Servidor.geraTempoDeServico(mi,rangeLower, rangeUpper);
-				if (i + tempoServico <= tempoSimulacao){
+				if (i + tempoServico <= Experimento.TEMPO_SIMULACAO){
 					clientesNoSistema.get(numClientesServidos).tempoServico= tempoServico;
 					clientesNoSistema.get(numClientesServidos).tempoSaida= i+tempoServico;
 					
@@ -102,7 +98,7 @@ public abstract class Simulador {
 		int numeroClientes = clientesNoSistema.size();
 		long tempoTotalNoSistema=0;
 		for (int i=0; i<numeroClientes; i++){
-			tempoTotalNoSistema+= Math.max(clientesNoSistema.get(i).tempoSaida, tempoSimulacao) - clientesNoSistema.get(i).tempoChegada;
+			tempoTotalNoSistema+= Math.max(clientesNoSistema.get(i).tempoSaida, Experimento.TEMPO_SIMULACAO) - clientesNoSistema.get(i).tempoChegada;
 		}
 		long tempoMedioNoSistema;
 		if (numeroClientes==0){
@@ -116,7 +112,7 @@ public abstract class Simulador {
 	//Saída da simulação 
 	public void log(){
 		SimulationLogger sl = new SimulationLogger(nomeSimulador+getIdSimulador());
-		sl.printSimulationMetrics(nomeSimulador+getIdSimulador(), lambda, mi, p, numeroMedioDeClientes,clientesNoSistema.size(), instantesOciosos, tempoSimulacao);
+		sl.printSimulationMetrics(nomeSimulador+getIdSimulador(), lambda, mi, p, numeroMedioDeClientes,clientesNoSistema.size(), instantesOciosos, Experimento.TEMPO_SIMULACAO);
 	}
 	
 	

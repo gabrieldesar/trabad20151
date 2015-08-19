@@ -1,4 +1,4 @@
-package main;
+package simulador;
 
 public class Cliente {
 
