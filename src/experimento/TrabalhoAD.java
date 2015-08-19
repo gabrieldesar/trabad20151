@@ -5,7 +5,8 @@ public class TrabalhoAD {
 		Experimento exp = new Experimento();
 		exp.runExperimento();
 		Grafico grafico = new Grafico(exp);
-		grafico.print(grafico.cenario1NumClientesPorLambda());
+		//grafico.print(grafico.cenario1NumClientesPorLambda());
+		grafico.print(grafico.cenario2NumClientesPorLambda());
 	}
 	
 	

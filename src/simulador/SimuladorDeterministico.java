@@ -12,7 +12,8 @@ public class SimuladorDeterministico extends Simulador {
 
 	@Override
 	public int entradaCliente() {
-		return Math.round(lambda * FATOR_TRUNCAMENTO_TEMPO);
+		System.out.println();
+		return Math.round(1/lambda);
 	}
 	
 	public void setNomeSimulador(){

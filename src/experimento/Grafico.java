@@ -64,6 +64,21 @@ public class Grafico extends JFrame {
 	    dataset.addSeries(series3);
 	    return dataset;
 	}
+	
+	public XYDataset cenario2NumClientesPorLambda() {
+	    XYSeriesCollection dataset = new XYSeriesCollection();
+	    XYSeries series1 = new XYSeries("Média Amostral");
+	 
+		
+		
+		for (Float key : exp.cenarios.get(1).mediaNumClientesPorLambda.keySet()){
+			Double value = exp.cenarios.get(1).mediaNumClientesPorLambda.get(key);
+			series1.add(key, value);
+		}
+	 
+	    dataset.addSeries(series1);
+	    return dataset;
+	}
 
 
 

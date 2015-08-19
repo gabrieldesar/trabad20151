@@ -9,8 +9,8 @@ import simulador.SimulatorType;
 
 public class Experimento {
 	private int numCenarios;
-	public static final int NUM_SIMULACOES = 100;
-	public static final long TEMPO_SIMULACAO = 1000;
+	public static final int NUM_SIMULACOES = 300;
+	public static final long TEMPO_SIMULACAO = 3000;
 	public static final Random range = new Random();
 	List<Cenario> cenarios;
 	
@@ -18,7 +18,7 @@ public class Experimento {
 	public Experimento(){			
 		cenarios = new ArrayList<Cenario>();
 		cenarios.add(new Cenario(new Properties("Cenario1", 0.05f, 1f, 0f, IterateValue.LAMBDA, SimulatorType.POISSON)));
-		//cenarios.add(new Cenario(new Properties("Cenario2", 0.05f, 1f, 0f, IterateValue.LAMBDA, SimulatorType.DETERMINISTICO)));
+		cenarios.add(new Cenario(new Properties("Cenario2", 0.05f, 1f, 0f, IterateValue.LAMBDA, SimulatorType.DETERMINISTICO)));
 		//cenarios.add(new Cenario(new Properties("Cenario3", 0.1f, 1f, 0f, 5, 15, IterateValue.MI, SimulatorType.UNIFORME)));
 		//cenarios.add(new Cenario(new Properties("Cenario4", 0.01f, 1f, 0.9f, IterateValue.MI, SimulatorType.POISSON)));
 		//cenarios.add(new Cenario(new Properties("Cenario5", 0.01f, 1f, 0.9f, IterateValue.MI, SimulatorType.DETERMINISTICO)));
