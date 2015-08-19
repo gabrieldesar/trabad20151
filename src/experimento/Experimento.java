@@ -2,13 +2,14 @@ package experimento;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import simulador.SimulatorType;
 
 public class Experimento {
 	private int numCenarios;
-	public static final int NUM_SIMULACOES = 1;
+	public static final int NUM_SIMULACOES = 100;
 	public static final long TEMPO_SIMULACAO = 1000;
 	public static final Random range = new Random();
 	List<Cenario> cenarios;
@@ -33,37 +34,22 @@ public class Experimento {
 		}	
 	}
 	
-	
-	public double getMediaAmostral(List<Double> valores){
-		double mediaAmostral=0;
-		for (int i=0; i<valores.size(); i++){
-			mediaAmostral += valores.get(i)/valores.size();
-		}
-		return mediaAmostral;
-	}
-	
-	public double getDesvioPadrao(List<Double> valores){
-		int numSimulacoes = valores.size();
-		double mediaAmostral = getMediaAmostral(valores);
-		
+	public double getDesvioPadrao(List<Rodada> rodadas, double mediaAmostral, float key){
 		double somatorioValores=0;
-		for (int i=0; i<valores.size(); i++){
-			somatorioValores+= Math.pow(valores.get(i) - mediaAmostral, 2);
-		}
-		
-		double desvioPadrao = Math.sqrt(somatorioValores/(numSimulacoes-1));
+		for (int i=0; i<rodadas.size(); i++){
+			somatorioValores+= Math.pow(rodadas.get(i).numMedioClientesPorLambda.get(key) - mediaAmostral, 2);
+		}		
+		double desvioPadrao = Math.sqrt(somatorioValores/(Experimento.NUM_SIMULACOES-1));
 		
 		return desvioPadrao;
 	}
 
-	public double getMin(List<Double> valores){
-		double mediaAmostral = getMediaAmostral(valores);
-		double min = mediaAmostral - (1.96 * getDesvioPadrao(valores)) / Math.sqrt(valores.size());
+	public double getMin(List<Rodada> rodadas, double mediaAmostral, float key){
+		double min = mediaAmostral - (1.96 * getDesvioPadrao(rodadas, mediaAmostral, key)) / Math.sqrt(Experimento.NUM_SIMULACOES);
 		return min;
 	}
-	public double getMax(List<Double> valores){
-		double mediaAmostral = getMediaAmostral(valores);
-		double max = mediaAmostral + (1.96 * getDesvioPadrao(valores)) / Math.sqrt(valores.size());
+	public double getMax(List<Rodada> rodadas, double mediaAmostral, float key){
+		double max = mediaAmostral + (1.96 * getDesvioPadrao(rodadas, mediaAmostral, key)) / Math.sqrt(Experimento.NUM_SIMULACOES);
 		return max;
 	}
 	

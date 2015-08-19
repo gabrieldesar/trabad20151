@@ -45,23 +45,23 @@ public class Grafico extends JFrame {
 	public XYDataset cenario1NumClientesPorLambda() {
 	    XYSeriesCollection dataset = new XYSeriesCollection();
 	    XYSeries series1 = new XYSeries("Média Amostral");
-	    //XYSeries series2 = new XYSeries("Min");
-	    //XYSeries series3 = new XYSeries("Max");
+	    XYSeries series2 = new XYSeries("Min");
+	    XYSeries series3 = new XYSeries("Max");
 	 
 		
 		
 		for (Float key : exp.cenarios.get(0).mediaNumClientesPorLambda.keySet()){
 			Double value = exp.cenarios.get(0).mediaNumClientesPorLambda.get(key);
 			series1.add(key, value);
-			//Double min = exp.getMin(exp.cenarios.get(0).mapasValoresCenario.valuesAsList(key));
-			//Double max = exp.getMax(exp.cenarios.get(0).mapasValoresCenario.valuesAsList(key));
-			//series2.add(key, min);
-			//series3.add(key, max);
+			Double min = exp.getMin(exp.cenarios.get(0).rodadas, exp.cenarios.get(0).mediaNumClientesPorLambda.get(key), key);
+			Double max = exp.getMax(exp.cenarios.get(0).rodadas, exp.cenarios.get(0).mediaNumClientesPorLambda.get(key), key);
+			series2.add(key, min);
+			series3.add(key, max);
 		}
 	 
 	    dataset.addSeries(series1);
-	    //dataset.addSeries(series2);
-	    //dataset.addSeries(series3);
+	    dataset.addSeries(series2);
+	    dataset.addSeries(series3);
 	    return dataset;
 	}
 

@@ -25,12 +25,12 @@ public class Cenario
 			rodada = new Rodada(properties);
 			rodada.executarRodada();
 			rodadas.add(rodada);
-			for (Float key : rodada.numClientesPorLambda.keySet()){
-				System.out.println("Simulação " +i +" Chave " + key + " Num Medio: " + rodada.numClientesPorLambda.get(key));
+			for (Float key : rodada.numMedioClientesPorLambda.keySet()){
+				//System.out.println("Simulação " +i +" Chave " + key + " Num Medio: " + rodada.numMedioClientesPorLambda.get(key));
 				if (i==0){
-					mediaNumClientesPorLambda.put(key, (rodada.numClientesPorLambda.get(key)/numSimulacoes));
+					mediaNumClientesPorLambda.put(key, (rodada.numMedioClientesPorLambda.get(key)/numSimulacoes));
 				}else{
-					mediaNumClientesPorLambda.put(key, mediaNumClientesPorLambda.get(key)+(rodada.numClientesPorLambda.get(key)/numSimulacoes));
+					mediaNumClientesPorLambda.put(key, mediaNumClientesPorLambda.get(key)+(rodada.numMedioClientesPorLambda.get(key)/numSimulacoes));
 				}
 			}
 		}

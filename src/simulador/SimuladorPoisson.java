@@ -21,7 +21,7 @@ public class SimuladorPoisson extends Simulador {
 		//proximaChegada = -Math.log(1 - (1 - Math.exp(-lambda)) * Math.random()) / lambda;
 		//proximaChegada = -Math.log(Math.exp(- lambda * rangeLower) - (Math.exp(- lambda * rangeLower) - Math.exp(-lambda*rangeUpper)) * Math.random()) / lambda;
 		ExponentialGenerator exp = new ExponentialGenerator(lambda, Experimento.range);
-		System.out.println(exp.nextValue());
+		//System.out.println(exp.nextValue());
 		proximaChegada = exp.nextValue();
 		
 		

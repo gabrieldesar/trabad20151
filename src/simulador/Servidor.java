@@ -19,7 +19,7 @@ public class Servidor
 			ExponentialGenerator exp = new ExponentialGenerator(mi, Experimento.range);
 			
 			//double tempoServico = -Math.log(1 - (1 - Math.exp(-mi)) * Math.random()) / mi;
-			double tempoServico = exp.nextValue();
+			double tempoServico = exp.nextValue(); //PARA NAO SER 0
 			//System.out.println(tempoServico+"");
 					
 					//-Math.log(Math.exp(- mi * rangeLower) - (Math.exp(- mi * rangeLower) - Math.exp(-mi*rangeUpper)) * Math.random()) / mi;
