@@ -130,6 +130,17 @@ public class Grafico extends JFrame {
 	    dataset.addSeries(series1);
 	    return dataset;
 	}
+	
+	public XYDataset academiaTempoMedioSistemaPorCenario() {
+	    XYSeriesCollection dataset = new XYSeriesCollection();
+	    XYSeries series1 = new XYSeries("Média Amostral");
+	 
+	    series1.add(1, exp.academiaSims.get(0).tempoMedioSistema());
+	    series1.add(2, exp.academiaSims.get(1).tempoMedioSistema());
+	    series1.add(3, exp.academiaSims.get(2).tempoMedioSistema());	 
+	    dataset.addSeries(series1);
+	    return dataset;
+	}
 
 
 

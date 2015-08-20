@@ -55,7 +55,7 @@ public abstract class Simulador {
 			}
 			if (i >= clientesNoSistema.get(numClientesServidos).tempoChegada){
 				
-				long tempoServico = Servidor.geraTempoDeServico(mi,rangeLower, rangeUpper);
+				long tempoServico = Servidor.geraTempoDeServico(mi);
 				if (i + tempoServico <= Experimento.TEMPO_SIMULACAO){
 					clientesNoSistema.get(numClientesServidos).tempoServico= tempoServico;
 					clientesNoSistema.get(numClientesServidos).tempoSaida= i+tempoServico;

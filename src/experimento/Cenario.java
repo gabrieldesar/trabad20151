@@ -21,9 +21,9 @@ public class Cenario
 		this.properties = properties;
 	}
 	
-	public void executarCenario(int numSimulacoes){
+	public void executarCenario(){
 		Rodada rodada;
-		for (int i=0; i< numSimulacoes; i++){
+		for (int i=0; i< Experimento.NUM_SIMULACOES; i++){
 			rodada = new Rodada(properties);
 			rodada.executarRodada();
 			rodadas.add(rodada);
@@ -32,18 +32,18 @@ public class Cenario
 				for (Float key : rodada.numMedioClientesPorLambda.keySet()){
 					if (i==0){
 						
-						mediaNumClientesPorLambda.put(key, (rodada.numMedioClientesPorLambda.get(key)/numSimulacoes));
+						mediaNumClientesPorLambda.put(key, (rodada.numMedioClientesPorLambda.get(key)/Experimento.NUM_SIMULACOES));
 					}else{
-						mediaNumClientesPorLambda.put(key, mediaNumClientesPorLambda.get(key)+(rodada.numMedioClientesPorLambda.get(key)/numSimulacoes));
+						mediaNumClientesPorLambda.put(key, mediaNumClientesPorLambda.get(key)+(rodada.numMedioClientesPorLambda.get(key)/Experimento.NUM_SIMULACOES));
 					}
 				}
 			}else{
 				for (Float key : rodada.numMedioClientesPorMi.keySet()){
 					if (i==0){
 						
-						mediaNumClientesPorMi.put(key, (rodada.numMedioClientesPorMi.get(key)/numSimulacoes));
+						mediaNumClientesPorMi.put(key, (rodada.numMedioClientesPorMi.get(key)/Experimento.NUM_SIMULACOES));
 					}else{
-						mediaNumClientesPorMi.put(key, mediaNumClientesPorMi.get(key)+(rodada.numMedioClientesPorMi.get(key)/numSimulacoes));
+						mediaNumClientesPorMi.put(key, mediaNumClientesPorMi.get(key)+(rodada.numMedioClientesPorMi.get(key)/Experimento.NUM_SIMULACOES));
 					}
 				}
 			}
