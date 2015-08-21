@@ -2,13 +2,13 @@ package experimento;
 
 public class TrabalhoAD {
 	public TrabalhoAD(){
-		cenario1();
+		//cenario1();
 		//cenario2();
 		//cenario3();
 		//cenario4();
 		//cenario5();
 		//cenario6();
-		//academia();
+		academia();
 		
 	}
 	

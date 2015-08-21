@@ -16,7 +16,10 @@ public class SimuladorAcademia {
 	public float miBicicleta;
 	public List<Cliente> clientesNaEsteira;
 	public List<Cliente> clientesNaBicicleta;
-	public int numClientesServidos;
+	public int numClientesServidosBicicleta;
+	public int numClientesServidosEsteira;
+	public long proximoAtendimentoBicicleta;
+	public long proximoAtendimentoEsteira;
 	
 	
 	public SimuladorAcademia(float lambda, float probBicicleta_Esteira, float probEsteira_Bicicleta, float miEsteira, float miBicicleta){
@@ -28,7 +31,10 @@ public class SimuladorAcademia {
 		clientesNaEsteira = new ArrayList<Cliente>();
 		clientesNaBicicleta = new ArrayList<Cliente>();
 		
-		numClientesServidos = 0;
+		numClientesServidosBicicleta = 0;
+		numClientesServidosEsteira = 0;
+		proximoAtendimentoBicicleta=0;
+		proximoAtendimentoEsteira=0;
 	}
 	
 	public int entradaCliente(){
@@ -54,32 +60,33 @@ public class SimuladorAcademia {
 	};
 	
 	public void servirClientesEsteira(long i) {
-		if (numClientesServidos == clientesNaEsteira.size()){
-			while (i<= Experimento.TEMPO_SIMULACAO){
+		if (numClientesServidosEsteira == clientesNaEsteira.size()){
 			//	instantesOciosos.add(i);
-				i++;
-			}
 			return;
 		}
-		if (i >= clientesNaEsteira.get(numClientesServidos).tempoChegada){
+		if (i<proximoAtendimentoEsteira){
+			//instantesOciosos.add(i)
+			return;
+		}
+		if (i >= clientesNaEsteira.get(numClientesServidosEsteira).tempoChegada){
 
 			long tempoServico = Servidor.geraTempoDeServico(miEsteira);
 			if (i + tempoServico <= Experimento.TEMPO_SIMULACAO){
-				clientesNaEsteira.get(numClientesServidos).tempoServico= tempoServico;
-				clientesNaEsteira.get(numClientesServidos).tempoSaida= i+tempoServico;
+				clientesNaEsteira.get(numClientesServidosEsteira).tempoServico= tempoServico;
+				clientesNaEsteira.get(numClientesServidosEsteira).tempoSaida= i+tempoServico;
 				
 				
 				//Prob reentrada
 				//TODO RETIRO DA ESTEIRA E PONHO NA BICICLETA? OU CRIO NOVO E MARCO O ANTIGO COMO REENTRADA?
 				if (Math.random() < probEsteira_Bicicleta){
-					clientesNaEsteira.get(numClientesServidos).reentrou= true;
+					clientesNaEsteira.get(numClientesServidosEsteira).reentrou= true;
 					clientesNaBicicleta.add(new Cliente(i+tempoServico));
 					Collections.sort(clientesNaBicicleta, new ClienteComparator()); //TODO ORDENAÇÃO ESTÁ CERTA?
 				}else{
-					numClientesServidos++;
+					numClientesServidosEsteira++;
 				}
 				
-				i = i + tempoServico; //- 1; 
+				proximoAtendimentoEsteira = i + tempoServico; //- 1; 
 				//OBS: Estamos perdendo 1 tempo?
 				
 			}
@@ -89,29 +96,31 @@ public class SimuladorAcademia {
 	}
 	
 	public void servirClientesBicicleta(long i) {
-		if (numClientesServidos == clientesNaBicicleta.size()){
-			while (i<= Experimento.TEMPO_SIMULACAO){
+		if (numClientesServidosBicicleta == clientesNaBicicleta.size()){
 			//	instantesOciosos.add(i);
-				i++;
-			}
+			i++;
 			return;
 		}
-		if (i >= clientesNaBicicleta.get(numClientesServidos).tempoChegada){
+		if (i<proximoAtendimentoBicicleta){
+			//instantesOciosos.add(i)
+			return;
+		}
+		if (i >= clientesNaBicicleta.get(numClientesServidosBicicleta).tempoChegada){
 
 			long tempoServico = Servidor.geraTempoDeServico(miBicicleta);
 			if (i + tempoServico <= Experimento.TEMPO_SIMULACAO){
-				clientesNaBicicleta.get(numClientesServidos).tempoServico= tempoServico;
-				clientesNaBicicleta.get(numClientesServidos).tempoSaida= i+tempoServico;
+				clientesNaBicicleta.get(numClientesServidosBicicleta).tempoServico= tempoServico;
+				clientesNaBicicleta.get(numClientesServidosBicicleta).tempoSaida= i+tempoServico;
 				
 				//Prob reentrada
 				if (Math.random() < probBicicleta_Esteira){
-					clientesNaBicicleta.get(numClientesServidos).reentrou= true;
+					clientesNaBicicleta.get(numClientesServidosBicicleta).reentrou= true;
 					clientesNaEsteira.add(new Cliente(i+tempoServico));
 					Collections.sort(clientesNaEsteira, new ClienteComparator());
 				}else{
-					numClientesServidos++;
+					numClientesServidosBicicleta++;
 				}
-				i = i + tempoServico; //- 1; 
+				proximoAtendimentoBicicleta = i + tempoServico; //- 1;
 				//OBS: Estamos perdendo 1 tempo?
 				
 			}
