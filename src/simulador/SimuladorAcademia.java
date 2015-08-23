@@ -57,6 +57,8 @@ public class SimuladorAcademia {
 				//OBS: Estamos perdendo 1 tempo?
 			}	
 		}
+		proximoAtendimentoBicicleta = clientesNaBicicleta.get(0).tempoChegada;
+		proximoAtendimentoEsteira = clientesNaEsteira.get(0).tempoChegada;
 	};
 	
 	public void servirClientesEsteira(long i) {
@@ -165,7 +167,11 @@ public class SimuladorAcademia {
 	
 
 	public long tempoSistemaPorCliente(Cliente c){
-		return c.tempoSaida - c.tempoChegada;
+		if (c.tempoSaida==0 && c.tempoChegada!=0){
+			return Experimento.TEMPO_SIMULACAO - c.tempoChegada;
+		}else{
+			return c.tempoSaida - c.tempoChegada;
+		}		
 	}
 	
 	//QUANDO HOUVER REENTRADA, NÃO CONTAR COMO MAIS UM CLIENTE, MAS CONTAR O SEU TEMPO
