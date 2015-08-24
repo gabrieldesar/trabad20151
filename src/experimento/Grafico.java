@@ -2,6 +2,10 @@ package experimento;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -63,6 +67,30 @@ public class Grafico extends JFrame {
 	    dataset.addSeries(series2);
 	    dataset.addSeries(series3);
 	    return dataset;
+	}
+	public XYDataset cenario1CDF(List<Long> temposEntreChegadas){
+		XYSeriesCollection dataset = new XYSeriesCollection();
+		XYSeries series1 = new XYSeries("CDF");
+		Collections.sort(temposEntreChegadas);
+		Map<Long, Long> mapaUnico = new TreeMap<Long, Long>();
+		while (temposEntreChegadas.size()!=0){
+			if (mapaUnico.containsKey(temposEntreChegadas.get(0))){
+				mapaUnico.put(temposEntreChegadas.get(0), mapaUnico.get(temposEntreChegadas.get(0))+1);
+			}else{
+				mapaUnico.put(temposEntreChegadas.get(0), (long) 1);
+			}
+			temposEntreChegadas.remove(0);
+		}
+		
+		Long value=(long) 0;
+		for (Long key : mapaUnico.keySet()){
+			value += mapaUnico.get(key);
+			series1.add(key, value);
+		}
+		
+		dataset.addSeries(series1);
+		return dataset;
+		
 	}
 	
 	public XYDataset cenario2NumClientesPorLambda() {

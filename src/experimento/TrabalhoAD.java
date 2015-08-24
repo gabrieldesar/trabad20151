@@ -1,14 +1,17 @@
 package experimento;
 
+import simulador.SimulationLogger;
+
 public class TrabalhoAD {
 	public TrabalhoAD(){
 		//cenario1();
+		cenario1CDF();
 		//cenario2();
 		//cenario3();
 		//cenario4();
 		//cenario5();
 		//cenario6();
-		academia();
+		//academia();
 		
 	}
 	
@@ -17,6 +20,15 @@ public class TrabalhoAD {
 		exp.runExperimento();
 		Grafico grafico = new Grafico(exp);
 		grafico.print(grafico.cenario1NumClientesPorLambda());
+	}
+	
+	public void cenario1CDF(){
+		Experimento exp = new Experimento(CenariosType.CENARIO1);
+		exp.runExperimento();
+		Grafico grafico = new Grafico(exp);
+		//SimulationLogger sl = new SimulationLogger("cdf");
+		//sl.printCFD(exp.cenarios.get(0).rodadas.get(0).simuladores.get(10).temposEntreChegadas);
+		grafico.print(grafico.cenario1CDF(exp.cenarios.get(0).rodadas.get(0).simuladores.get(10).temposEntreChegadas));
 	}
 	
 	public void cenario2(){

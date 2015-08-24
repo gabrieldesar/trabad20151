@@ -4,12 +4,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.List;
 
 public class SimulationLogger
 {
 	String fileName;
-	static PrintWriter fileWriter;
+	PrintWriter fileWriter;
 	
 	public SimulationLogger(String fileName){
 		this.fileName = fileName;
@@ -53,11 +54,14 @@ public class SimulationLogger
 	public void logLine(long iterationNumber, Boolean servidorOcupado, long clientesNoSistema) {
 		
 	}
-	public static void printCFD(List<Long> temposEntreChegadas) {
+	public void printCFD(List<Long> temposEntreChegadas) {
+		Collections.sort(temposEntreChegadas);
 		try {
 			BufferedWriter out = new BufferedWriter( fileWriter );
+			double DTamanhoChegadas = temposEntreChegadas.size();
 			for (int i=0; i<temposEntreChegadas.size(); i++){
-		        out.write(temposEntreChegadas.get(i)+" "+i/temposEntreChegadas.size()+"\n");
+				double count = i;				
+		        out.write(temposEntreChegadas.get(i)+" "+1/DTamanhoChegadas+"\n");
 			}
 	        out.close();
 	    } catch (IOException e) {

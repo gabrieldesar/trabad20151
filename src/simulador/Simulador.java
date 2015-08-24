@@ -20,6 +20,8 @@ public abstract class Simulador {
 	public Servidor servidor;
 	public Cliente proximaChegada = null;
 	public List<Cliente> clientesNoSistema = new ArrayList<Cliente>();
+	List<Double> temposChegadas = new ArrayList<Double>();
+	public List<Long> temposEntreChegadas = new ArrayList<Long>();
 	
 	
 	public Simulador(float lambda, float mi, float p){
@@ -36,6 +38,7 @@ public abstract class Simulador {
 	public void gerarClientes(){
 		for (double i=0; i<= Experimento.TEMPO_SIMULACAO; i+=Experimento.INCREMENTO){
 			double tempoProximaChegada = entradaCliente();
+			temposChegadas.add(tempoProximaChegada+i);
 			if (i + tempoProximaChegada < Experimento.TEMPO_SIMULACAO){
 				clientesNoSistema.add(new Cliente(i+tempoProximaChegada));
 				i = i + tempoProximaChegada; //- 1;
@@ -113,6 +116,11 @@ public abstract class Simulador {
 		}
 		
 		numeroMedioDeClientes = lambda*tempoMedioNoSistema; 
+		
+		
+		for (int i=0; i<temposChegadas.size()-1;  i++){
+			temposEntreChegadas.add(Math.round(temposChegadas.get(i+1)-temposChegadas.get(i)));
+		}
 	}
 	
 	//Saída da simulação 
