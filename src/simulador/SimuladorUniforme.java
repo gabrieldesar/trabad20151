@@ -16,9 +16,9 @@ public class SimuladorUniforme extends Simulador {
 	}
 
 	@Override
-	public int entradaCliente() {
-		int proximaChegada;
-		proximaChegada = (int) Math.round(Math.random()*(max-min) + min);
+	public double entradaCliente() {
+		double proximaChegada;
+		proximaChegada = Math.random()*(max-min) + min;
 		//System.out.println(proximaChegada);
 		
 		return proximaChegada;	

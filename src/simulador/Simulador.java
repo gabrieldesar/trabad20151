@@ -15,11 +15,12 @@ public abstract class Simulador {
 	public float mi;
 	public float p;
 	public String nomeSimulador;
-	public List<Long> instantesOciosos = new ArrayList<Long>();
+	public List<Double> instantesOciosos = new ArrayList<Double>();
 	public double numeroMedioDeClientes;
 	public Servidor servidor;
 	public Cliente proximaChegada = null;
 	public List<Cliente> clientesNoSistema = new ArrayList<Cliente>();
+	
 	
 	public Simulador(float lambda, float mi, float p){
 		//ID_SIMULADOR++;
@@ -29,12 +30,12 @@ public abstract class Simulador {
 	}
 	
 	//Gerar um cliente novo que entra no sistema
-	public abstract int entradaCliente();
+	public abstract double entradaCliente();
 	
 	
 	public void gerarClientes(){
-		for (long i=0; i<= Experimento.TEMPO_SIMULACAO; i++){
-			int tempoProximaChegada = entradaCliente();
+		for (double i=0; i<= Experimento.TEMPO_SIMULACAO; i+=Experimento.INCREMENTO){
+			double tempoProximaChegada = entradaCliente();
 			if (i + tempoProximaChegada < Experimento.TEMPO_SIMULACAO){
 				clientesNoSistema.add(new Cliente(i+tempoProximaChegada));
 				i = i + tempoProximaChegada; //- 1;
@@ -45,7 +46,7 @@ public abstract class Simulador {
 	
 	public void servirClientes() {
 		int numClientesServidos = 0;
-		for (long i=0; i<= Experimento.TEMPO_SIMULACAO; i++){
+		for (double i=0; i<= Experimento.TEMPO_SIMULACAO; i+=Experimento.INCREMENTO){
 			if (numClientesServidos == clientesNoSistema.size()){
 				while (i<= Experimento.TEMPO_SIMULACAO){
 					instantesOciosos.add(i);
@@ -55,7 +56,7 @@ public abstract class Simulador {
 			}
 			if (i >= clientesNoSistema.get(numClientesServidos).tempoChegada){
 				
-				long tempoServico = Servidor.geraTempoDeServico(mi);
+				double tempoServico = Servidor.geraTempoDeServico(mi);
 				if (i + tempoServico <= Experimento.TEMPO_SIMULACAO){
 					clientesNoSistema.get(numClientesServidos).tempoServico= tempoServico;
 					clientesNoSistema.get(numClientesServidos).tempoSaida= i+tempoServico;
@@ -104,7 +105,7 @@ public abstract class Simulador {
 				tempoTotalNoSistema+= clientesNoSistema.get(i).tempoSaida - clientesNoSistema.get(i).tempoChegada;
 			}
 		}
-		long tempoMedioNoSistema;
+		double tempoMedioNoSistema;
 		if (numeroClientes==0){
 			tempoMedioNoSistema = 0;
 		}else{

@@ -6,13 +6,13 @@ import experimento.Experimento;
 
 public class Servidor
 {	
-	public static long geraTempoDeServico(float mi)
+	public static double geraTempoDeServico(float mi)
 	{
 		if (mi > 0)
 		{
 			ExponentialGenerator exp = new ExponentialGenerator(mi, Experimento.range);
 			double tempoServico = exp.nextValue(); //TODO ESTA RETORNANDO 0 TBM
-			return (int) Math.round(tempoServico);
+			return tempoServico;
 		}
 		return 0;
 	}

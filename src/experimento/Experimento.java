@@ -11,7 +11,8 @@ import simulador.SimulatorType;
 public class Experimento {
 	private int numCenarios;
 	public static final int NUM_SIMULACOES = 200;
-	public static final long TEMPO_SIMULACAO = 2000;
+	public static final long TEMPO_SIMULACAO = 1000;
+	public static final double INCREMENTO = 0.1;
 	public static final Random range = new Random();
 	List<Cenario> cenarios;
 	List<SimuladorAcademia> academiaSims;

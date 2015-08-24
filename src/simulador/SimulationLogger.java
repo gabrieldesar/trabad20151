@@ -29,7 +29,7 @@ public class SimulationLogger
 		
 	}
 
-	public void printSimulationMetrics(String simulationName, float lambda, float mi, float p, double numeroMedioDeClientes, int clientesSize, List<Long> instantesOciosos, long tempoSimulacao){
+	public void printSimulationMetrics(String simulationName, float lambda, float mi, float p, double numeroMedioDeClientes, int clientesSize, List<Double> instantesOciosos, double tempoSimulacao){
 		 
 		try {
 				BufferedWriter out = new BufferedWriter( fileWriter );
@@ -39,7 +39,7 @@ public class SimulationLogger
 		        out.write("Num Médio de Clientes no Sistema: "+numeroMedioDeClientes+"\n");
 		        out.write("Numero total de Clientes no sistema no periodo de simulação: " + clientesSize+"\n");
 		        out.write("Tempo ocioso no sistema: " +instantesOciosos.size()+"\n");
-		        long tempoOcupado = tempoSimulacao-instantesOciosos.size();
+		        long tempoOcupado = Math.round(tempoSimulacao)-instantesOciosos.size();
 		        out.write("Tempo Ocupado do sistema: "+ tempoOcupado+"\n" );
 		        out.close();
 		        System.out.println(simulationName + " escrito!");
