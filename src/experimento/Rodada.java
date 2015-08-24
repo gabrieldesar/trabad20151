@@ -31,16 +31,17 @@ public class Rodada
 		do{
 			createSimulator();
 			simuladores.get(count).simula();
-			numMedioClientesPorLambda.put(properties.taxaEntrada, simuladores.get(count).numeroMedioDeClientes);
-			numMedioClientesPorMi.put(properties.taxaServico, simuladores.get(count).numeroMedioDeClientes);
-			count++;
+			
 			if (properties.iterateValue == IterateValue.LAMBDA){
+				numMedioClientesPorLambda.put(properties.taxaEntrada, simuladores.get(count).numeroMedioDeClientes);
 				properties.taxaEntrada += 0.05f;
 				condicao = properties.taxaEntrada < 0.95;
 			}else if (properties.iterateValue == IterateValue.MI){
+				numMedioClientesPorMi.put(properties.taxaServico, simuladores.get(count).numeroMedioDeClientes);
 				properties.taxaServico += 0.5f;
 				condicao = properties.taxaServico < 10.5f;
 			}
+			count++;
 		}while(condicao);
 	}
 	

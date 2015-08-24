@@ -12,8 +12,8 @@ public class SimuladorDeterministico extends Simulador {
 
 	@Override
 	public double entradaCliente() {
-		System.out.println();
-		return 1/lambda;
+		double proximoCliente = 1/lambda;
+		return proximoCliente;
 	}
 	
 	public void setNomeSimulador(){

@@ -21,6 +21,7 @@ public class SimuladorAcademia {
 	public int numClientesServidosEsteira;
 	public double proximoAtendimentoBicicleta;
 	public double proximoAtendimentoEsteira;
+	public final double PROB_INICIO_ESTEIRA = 1;
 	
 	
 	public SimuladorAcademia(float lambda, float probBicicleta_Esteira, float probEsteira_Bicicleta, float miEsteira, float miBicicleta){
@@ -50,7 +51,7 @@ public class SimuladorAcademia {
 		for (double i=0; i<= Experimento.TEMPO_SIMULACAO; i+=Experimento.INCREMENTO){
 			double tempoProximaChegada = entradaCliente();
 			if (i + tempoProximaChegada < Experimento.TEMPO_SIMULACAO){
-				if (Math.random()<=0.5){
+				if (Math.random()<=PROB_INICIO_ESTEIRA){
 					clientesNaEsteira.add(new Cliente(i+tempoProximaChegada));
 				}else{
 					clientesNaBicicleta.add(new Cliente(i+tempoProximaChegada));
@@ -59,8 +60,13 @@ public class SimuladorAcademia {
 				//OBS: Estamos perdendo 1 tempo?
 			}	
 		}
-		proximoAtendimentoBicicleta = clientesNaBicicleta.get(0).tempoChegada;
-		proximoAtendimentoEsteira = clientesNaEsteira.get(0).tempoChegada;
+		if (clientesNaBicicleta.size()!=0){
+			proximoAtendimentoBicicleta = clientesNaBicicleta.get(0).tempoChegada;
+		}
+		if (clientesNaEsteira.size()!=0){
+			proximoAtendimentoEsteira = clientesNaEsteira.get(0).tempoChegada;
+		}
+		
 	};
 	
 	public void servirClientes(double i, double proximoAtendimento, List<Cliente> filaServidor, List<Cliente> filaOutroServidor, float mi, float probTrocarAparelho, long numServidos){

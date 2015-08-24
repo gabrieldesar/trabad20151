@@ -64,26 +64,80 @@ public class Grafico extends JFrame {
 		}
 	 
 	    dataset.addSeries(series1);
-	    dataset.addSeries(series2);
-	    dataset.addSeries(series3);
+	    //dataset.addSeries(series2);
+	    //dataset.addSeries(series3);
 	    return dataset;
 	}
-	public XYDataset cenario1CDF(List<Long> temposEntreChegadas){
+	public XYDataset cenario1CDF(List<Double> temposEntreSaidas){
+		XYSeriesCollection dataset = new XYSeriesCollection();
+		XYSeries series1 = new XYSeries("CDF");
+		Collections.sort(temposEntreSaidas);
+		Map<Double, Double> mapaUnico = new TreeMap<Double, Double>();
+		double probabilidade = 1.0/temposEntreSaidas.size();
+		while (temposEntreSaidas.size()!=0){
+		
+			if (mapaUnico.containsKey(temposEntreSaidas.get(0))){
+				mapaUnico.put(temposEntreSaidas.get(0), mapaUnico.get(temposEntreSaidas.get(0))+probabilidade);
+			}else{
+				mapaUnico.put(temposEntreSaidas.get(0), probabilidade);
+			}
+			temposEntreSaidas.remove(0);
+		}
+		
+		Double value = 0.0;
+		for (Double key : mapaUnico.keySet()){
+			value += mapaUnico.get(key);
+			series1.add(key, value);
+		}
+		
+		dataset.addSeries(series1);
+		return dataset;
+		
+	}
+	public XYDataset cenario4SaidasExogenasCDF(List<Double> temposEntreSaidas){
+		XYSeriesCollection dataset = new XYSeriesCollection();
+		XYSeries series1 = new XYSeries("CDF");
+		Collections.sort(temposEntreSaidas);
+		Map<Double, Double> mapaUnico = new TreeMap<Double, Double>();
+		double probabilidade = 1.0/temposEntreSaidas.size();
+		while (temposEntreSaidas.size()!=0){
+		
+			if (mapaUnico.containsKey(temposEntreSaidas.get(0))){
+				mapaUnico.put(temposEntreSaidas.get(0), mapaUnico.get(temposEntreSaidas.get(0))+probabilidade);
+			}else{
+				mapaUnico.put(temposEntreSaidas.get(0), probabilidade);
+			}
+			temposEntreSaidas.remove(0);
+		}
+		
+		Double value = 0.0;
+		for (Double key : mapaUnico.keySet()){
+			value += mapaUnico.get(key);
+			series1.add(key, value);
+		}
+		
+		dataset.addSeries(series1);
+		return dataset;
+		
+	}
+	public XYDataset cenario4ChegadasCDF(List<Double> temposEntreChegadas){
 		XYSeriesCollection dataset = new XYSeriesCollection();
 		XYSeries series1 = new XYSeries("CDF");
 		Collections.sort(temposEntreChegadas);
-		Map<Long, Long> mapaUnico = new TreeMap<Long, Long>();
+		Map<Double, Double> mapaUnico = new TreeMap<Double, Double>();
+		double probabilidade = 1.0/temposEntreChegadas.size();
 		while (temposEntreChegadas.size()!=0){
+		
 			if (mapaUnico.containsKey(temposEntreChegadas.get(0))){
-				mapaUnico.put(temposEntreChegadas.get(0), mapaUnico.get(temposEntreChegadas.get(0))+1);
+				mapaUnico.put(temposEntreChegadas.get(0), mapaUnico.get(temposEntreChegadas.get(0))+probabilidade);
 			}else{
-				mapaUnico.put(temposEntreChegadas.get(0), (long) 1);
+				mapaUnico.put(temposEntreChegadas.get(0), probabilidade);
 			}
 			temposEntreChegadas.remove(0);
 		}
 		
-		Long value=(long) 0;
-		for (Long key : mapaUnico.keySet()){
+		Double value = 0.0;
+		for (Double key : mapaUnico.keySet()){
 			value += mapaUnico.get(key);
 			series1.add(key, value);
 		}
