@@ -17,11 +17,17 @@ public class SimuladorAcademia {
 	public List<Cliente> clientesNaEsteira;
 	public List<Cliente> clientesNaBicicleta;
 	public List<Cliente> clientesServidos;
- 	public int numClientesServidosBicicleta;
-	public int numClientesServidosEsteira;
-	public double proximoAtendimentoBicicleta;
-	public double proximoAtendimentoEsteira;
+ 	public Long numClientesServidosBicicleta;
+	public Long numClientesServidosEsteira;
+	public Double proximoAtendimentoBicicleta;
+	public Double proximoAtendimentoEsteira;
 	public final double PROB_INICIO_ESTEIRA = 1;
+	public Double tempoOcupadoEsteira = 0.0;
+	public Double tempoOcupadoBicicleta = 0.0;
+	public Double tempoLivreEsteira = 0.0;
+	public Double tempoLivreBicicleta = 0.0;
+	
+	
 	
 	
 	public SimuladorAcademia(float lambda, float probBicicleta_Esteira, float probEsteira_Bicicleta, float miEsteira, float miBicicleta){
@@ -34,10 +40,10 @@ public class SimuladorAcademia {
 		clientesNaBicicleta = new ArrayList<Cliente>();
 		clientesServidos = new ArrayList<Cliente>();
 		
-		numClientesServidosBicicleta = 0;
-		numClientesServidosEsteira = 0;
-		proximoAtendimentoBicicleta=0;
-		proximoAtendimentoEsteira=0;
+		numClientesServidosBicicleta = 0l;
+		numClientesServidosEsteira = 0l;
+		proximoAtendimentoBicicleta=0.0;
+		proximoAtendimentoEsteira=0.0;
 	}
 	
 	public double entradaCliente(){
@@ -69,43 +75,83 @@ public class SimuladorAcademia {
 		
 	};
 	
-	public void servirClientes(double i, double proximoAtendimento, List<Cliente> filaServidor, List<Cliente> filaOutroServidor, float mi, float probTrocarAparelho, long numServidos){
-		if (filaServidor.size()==0){
+	public void servirClientesBicicleta(double i){	
+		if (clientesNaBicicleta.size()==0){
 			return;
 		}
-		if (i<proximoAtendimento){
-			return;
-		}
-		if (i >= filaServidor.get(0).tempoChegada){
-
-			double tempoServico = Servidor.geraTempoDeServico(mi);
+		if (i >= clientesNaBicicleta.get(0).tempoChegada && i>= proximoAtendimentoBicicleta){
+			double tempoServico = Servidor.geraTempoDeServico(miBicicleta);
 			if (i + tempoServico <= Experimento.TEMPO_SIMULACAO){
-				filaServidor.get(0).tempoServico= tempoServico;
-				filaServidor.get(0).tempoSaida= i+tempoServico;
+				clientesNaBicicleta.get(0).tempoServico= tempoServico;
+				clientesNaBicicleta.get(0).tempoSaida= i+tempoServico;
 				
 				
 				//Prob reentrada
-				//TODO RETIRO DA ESTEIRA E PONHO NA BICICLETA? OU CRIO NOVO E MARCO O ANTIGO COMO REENTRADA?
-				if (Math.random() < probTrocarAparelho){
+				if (Math.random() < probBicicleta_Esteira){
 					Cliente c = new Cliente(i+tempoServico);
-					c.tempoSistema += filaServidor.get(0).tempoSaida - i;
-					filaOutroServidor.add(c);
-					filaServidor.remove(0);					
-					Collections.sort(filaOutroServidor, new ClienteComparator()); //TODO ORDENAÇÃO ESTÁ CERTA?
+					c.tempoSistema += clientesNaBicicleta.get(0).tempoSaida - i;
+					clientesNaEsteira.add(c);
+					clientesNaBicicleta.remove(0);					
+					Collections.sort(clientesNaEsteira, new ClienteComparator()); //TODO ORDENAÇÃO ESTÁ CERTA?
 				}else{
 					Cliente c = new Cliente(i+tempoServico);
-					c.tempoSistema += filaServidor.get(0).tempoSaida - i;
+					c.tempoSistema += clientesNaBicicleta.get(0).tempoSaida - i;
 					clientesServidos.add(c);
-					numServidos++;
-					filaServidor.remove(0);
+					numClientesServidosBicicleta++;
+					clientesNaBicicleta.remove(0);
 				}
+
+				tempoOcupadoBicicleta += Experimento.INCREMENTO;
+				proximoAtendimentoBicicleta = i + tempoServico;
 				
-				proximoAtendimento = i + tempoServico; //- 1; 
+				//proximoAtendimento = i + tempoServico; //- 1; 
 				//OBS: Estamos perdendo 1 tempo?
 				
 			}
 		}else{
-			//instantesOciosos.add(i);
+			if (i<= proximoAtendimentoBicicleta){
+				tempoLivreBicicleta += (Experimento.INCREMENTO);
+			}
+				
+		}
+	}
+	
+	public void servirClientesEsteira(double i){
+		if (clientesNaEsteira.size()==0){
+			return;
+		}
+		if (i >= clientesNaEsteira.get(0).tempoChegada && i>= proximoAtendimentoEsteira){
+			
+			double tempoServico = Servidor.geraTempoDeServico(miEsteira);
+			if (i + tempoServico <= Experimento.TEMPO_SIMULACAO){
+				clientesNaEsteira.get(0).tempoServico= tempoServico;
+				clientesNaEsteira.get(0).tempoSaida= i+tempoServico;
+				
+				
+				//Prob reentrada
+				if (Math.random() < probEsteira_Bicicleta){
+					Cliente c = new Cliente(i+tempoServico);
+					c.tempoSistema += clientesNaEsteira.get(0).tempoSaida - i;
+					clientesNaBicicleta.add(c);
+					clientesNaEsteira.remove(0);					
+					Collections.sort(clientesNaBicicleta, new ClienteComparator()); //TODO ORDENAÇÃO ESTÁ CERTA?
+				}else{
+					Cliente c = new Cliente(i+tempoServico);
+					c.tempoSistema += clientesNaEsteira.get(0).tempoSaida - i;
+					clientesServidos.add(c);
+					numClientesServidosEsteira++;
+					clientesNaEsteira.remove(0);
+				}
+				tempoOcupadoEsteira += Experimento.INCREMENTO;
+				proximoAtendimentoEsteira = i + tempoServico;
+
+				
+				//proximoAtendimento = i + tempoServico; //- 1; 
+				//OBS: Estamos perdendo 1 tempo?
+				
+			}
+		}else{
+			tempoLivreEsteira += (Experimento.INCREMENTO);
 		}
 	}
 	
@@ -113,8 +159,9 @@ public class SimuladorAcademia {
 		gerarClientes();
 		
 		for (double i=0; i<Experimento.TEMPO_SIMULACAO; i+=Experimento.INCREMENTO){
-			servirClientes(i, proximoAtendimentoEsteira, clientesNaEsteira, clientesNaBicicleta, miEsteira, probEsteira_Bicicleta, numClientesServidosEsteira);
-			servirClientes(i, proximoAtendimentoBicicleta, clientesNaBicicleta, clientesNaEsteira, miBicicleta, probBicicleta_Esteira, numClientesServidosBicicleta);
+			servirClientesEsteira(i);
+			servirClientesBicicleta(i);
+			
 		}
 			
 		calculoMetricas();
@@ -122,12 +169,11 @@ public class SimuladorAcademia {
 	};
 	
 	public void calculoMetricas(){
-		//TODO
 		
 	};
 	
 	public double tempoMedioSistema(){
-		long tempoTotalSistema = 0;
+		double tempoTotalSistema = 0;
 		
 		for (int i=0; i<clientesServidos.size(); i++){
 			tempoTotalSistema +=tempoSistemaPorCliente(clientesServidos.get(i));
@@ -139,7 +185,8 @@ public class SimuladorAcademia {
 
 	public double tempoSistemaPorCliente(Cliente c){
 		if (c.tempoSaida==0 && c.tempoChegada!=0){
-			return Experimento.TEMPO_SIMULACAO - c.tempoChegada;
+			double retorno = (double)Experimento.TEMPO_SIMULACAO - c.tempoChegada;
+			return retorno;
 		}else{
 			return c.tempoSistema;
 		}		
@@ -148,6 +195,6 @@ public class SimuladorAcademia {
 	//QUANDO HOUVER REENTRADA, NÃO CONTAR COMO MAIS UM CLIENTE, MAS CONTAR O SEU TEMPO
 	//NO SISTEMA, PORQUE ESTA FATIADO ENTRE AS FILAS
 	public long numeroClientesSistema(){
-		return clientesServidos.size();
+		return clientesServidos.size() + clientesNaBicicleta.size()+clientesNaEsteira.size();
 	}
 }

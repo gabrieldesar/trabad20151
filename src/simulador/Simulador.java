@@ -10,12 +10,10 @@ public abstract class Simulador {
 	public final int FATOR_TRUNCAMENTO_TEMPO = 10;
 	public static int rangeLower = 1;
 	public static int rangeUpper = 300;
-	//public static int ID_SIMULADOR = 0;
 	public float lambda;
 	public float mi;
 	public float p;
 	public String nomeSimulador;
-	//public List<Double> instantesOciosos = new ArrayList<Double>();
 	public double numeroMedioDeClientes;
 	public Servidor servidor;
 	public Cliente proximaChegada = null;
@@ -26,7 +24,6 @@ public abstract class Simulador {
 	List<Double> temposSaidasExogenas = new ArrayList<Double>();
 	public List<Double> temposEntreChegadas = new ArrayList<Double>();
 	List<Double> temposChegadas = new ArrayList<Double>();
-	//List<Double> chegadasSistemaVazio = new ArrayList<Double>();
 	Long chegadasSistemaVazio = 0l;
 	Long saidasSistemaVazio = 0l;
 	Double instantesOciosos = 0.0;
@@ -37,13 +34,11 @@ public abstract class Simulador {
 	
 	
 	public Simulador(float lambda, float mi, float p){
-		//ID_SIMULADOR++;
 		this.lambda = lambda;
 		this.mi = mi;
 		this.p = p;		
 	}
 	
-	//Gerar um cliente novo que entra no sistema
 	public abstract double entradaCliente();
 	
 	
@@ -66,7 +61,6 @@ public abstract class Simulador {
 				while (i<= Experimento.TEMPO_SIMULACAO){
 					estaOcioso = true;
 					instantesOciosos+=Experimento.INCREMENTO;
-					//instantesOciosos.add(i);
 					i++;
 				}
 				return;

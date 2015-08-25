@@ -137,13 +137,55 @@ public class TrabalhoAD {
 	public void academia(){
 		Experimento exp = new Experimento(CenariosType.ACADEMIA);
 		exp.runExperimento();
-		Grafico grafico = new Grafico(exp);
-		grafico.print(grafico.academiaTempoMedioSistemaPorCenario());
+		//utilização é tempoOcupado/periodoObs
+		//utilização esteira
+		//utilização bicicleta
+		
+		System.out.println("Cenario1");
+		Double utilizacaoEsteira = exp.academiaSims.get(0).tempoOcupadoEsteira / Experimento.TEMPO_SIMULACAO;
+		System.out.println("Utilização Esteira: "+utilizacaoEsteira);
+		Double livreEsteira = exp.academiaSims.get(0).tempoLivreEsteira / Experimento.TEMPO_SIMULACAO;
+		System.out.println("TempoLivre Esteira: "+livreEsteira);
+		Double utilizacaoBicicleta = exp.academiaSims.get(0).tempoOcupadoBicicleta / Experimento.TEMPO_SIMULACAO;
+		System.out.println("Utilização Bicicleta: "+utilizacaoBicicleta);
+		Double livreBicicleta = exp.academiaSims.get(0).tempoLivreBicicleta / Experimento.TEMPO_SIMULACAO;
+		System.out.println("TempoLivre Bicicleta: "+livreBicicleta);
+		
+		System.out.println("Tempo Médio no Sistema: "+ exp.academiaSims.get(0).tempoMedioSistema());
+		//tempo médio clientes no sistema
+		//Comparar soluções com analítica (formula fechada) e sol. numerica da cadeira de markov finita
+		
+		//fluxos
+		//entradaExogena
+		//entradaAgregada
+		//esteira para bike
+		//esteira para fora
+		//bike para fora
+		//bike para esteira
+		//saida agregada (bike para fora + esteira para fora). Quais sao poisson e quais não
+		System.out.println("Cenario2");
+		Double utilizacaoEsteira2 = exp.academiaSims.get(1).tempoOcupadoEsteira / Experimento.TEMPO_SIMULACAO;
+		System.out.println("Utilização Esteira: "+utilizacaoEsteira2);
+		Double livreEsteira2 = exp.academiaSims.get(1).tempoLivreEsteira / Experimento.TEMPO_SIMULACAO;
+		System.out.println("TempoLivre Esteira: "+livreEsteira2);
+		Double utilizacaoBicicleta2 = exp.academiaSims.get(1).tempoOcupadoBicicleta / Experimento.TEMPO_SIMULACAO;
+		System.out.println("Utilização Bicicleta: "+utilizacaoBicicleta2);
+		Double livreBicicleta2 = exp.academiaSims.get(1).tempoLivreBicicleta / Experimento.TEMPO_SIMULACAO;
+		System.out.println("TempoLivre Bicicleta: "+livreBicicleta2);
+		System.out.println("Tempo Médio no Sistema: "+ exp.academiaSims.get(1).tempoMedioSistema());
+		
+		
+		System.out.println("Cenario3");
+		Double utilizacaoEsteira3 = exp.academiaSims.get(2).tempoOcupadoEsteira / Experimento.TEMPO_SIMULACAO;
+		System.out.println("Utilização Esteira: "+utilizacaoEsteira3);
+		Double livreEsteira3 = exp.academiaSims.get(2).tempoLivreEsteira / Experimento.TEMPO_SIMULACAO;
+		System.out.println("TempoLivre Esteira: "+livreEsteira3);
+		Double utilizacaoBicicleta3 = exp.academiaSims.get(2).tempoOcupadoBicicleta / Experimento.TEMPO_SIMULACAO;
+		System.out.println("Utilização Bicicleta: "+utilizacaoBicicleta3);
+		Double livreBicicleta3 = exp.academiaSims.get(2).tempoLivreBicicleta / Experimento.TEMPO_SIMULACAO;
+		System.out.println("TempoLivre Bicicleta: "+livreBicicleta3);
+		System.out.println("Tempo Médio no Sistema: "+ exp.academiaSims.get(2).tempoMedioSistema());
 	}
-	
-	
-	
-	
 	
 	
 	public static void main(String[] args) {
